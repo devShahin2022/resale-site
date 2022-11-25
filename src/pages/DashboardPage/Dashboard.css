@@ -1,0 +1,38 @@
+.side-nav{
+    background-color: rgb(238, 238, 238);
+    height: 100vh !important;
+    padding: 0 .7rem;
+    padding-top: 1.6rem;
+    transition: all .2s ease-in !important;
+}
+.sideNav-item-hover{
+    transition: all .2s ease-in !important;
+}
+.sideNav-item-hover:hover{
+    background-color: rgb(231, 231, 231) !important;
+}
+.toggleBtn{
+    right : -110% !important;
+} 
+#meghamenu{
+    z-index: 9999 !important;
+    position: absolute !important;
+}
+#submenu{
+    top: 48px;
+    background: #ededed;
+    padding: 20px 30px !important;
+    width: 180px;
+    z-index: 998889 !important;
+    transition: all .2s ease-in;
+    transform: scaleY(0) translateY(-10px);
+    opacity: 0;
+    transform-origin: top;
+}
+#submenu a {
+    border-bottom:1px solid rgb(255, 255, 255);
+}
+.hover-blogs:hover #submenu{
+    transform: scaleY(1) translateY(0px);
+    opacity: 1;
+}
