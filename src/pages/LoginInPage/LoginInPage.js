@@ -4,37 +4,119 @@ import {
     MDBCol,
     MDBInput,
     MDBCheckbox,
-    MDBBtn,
     MDBIcon
   } from 'mdb-react-ui-kit';
 import NavBar from '../../components/NavBar/NavBar';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import { AuthContextInfo } from '../../authContext/AuthContext';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import Swal from 'sweetalert2';
 
 const LoginInPage = () => {
-    const {providerLogin} = useContext(AuthContextInfo);
+    const {providerLogin, signIn} = useContext(AuthContextInfo);
     const navigate = useNavigate();
+// tostify
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    });
 
+
+
+    // provider login
+
+    // google provider login
     const googleProvider = new GoogleAuthProvider();
     const handleGoogleLogin = () => {
-        console.log('clicked handle google login');
         providerLogin(googleProvider)
         .then(result => {
-            const email = result.user.email;
-            console.log('email',email);
-            console.log('successfull login');
-            navigate("/dashboard");
+            Toast.fire({
+              icon: 'success',
+              title: 'Login success'
+            });
+            navigate("/home");
         })
         .catch(error => {
-            console.log(error);
+          Toast.fire({
+            icon: 'error',
+            title: 'Login error'
+          });
         });
     }
-    const handleEmailLogin = e => {
-        e.preventDefault()
-    }
 
+    //  git hub login
+    const gitHubProvider = new GithubAuthProvider();
+    const handleGitHubLogin = () => {
+      providerLogin(gitHubProvider)
+      .then(result => {
+        console.log(result);
+          Toast.fire({
+            icon: 'success',
+            title: 'Login success'
+          });
+          navigate("/home");
+      })
+      .catch(error => {
+        console.log('error code', error.code);
+        console.log('error message', error.message);
+        if( error.code === 'auth/account-exists-with-different-credential'){
+          Toast.fire({
+            icon: 'error',
+            title: 'Fail! email already exits'
+          });
+        }else{
+          Toast.fire({
+            icon: 'error',
+            title: 'Unknown error'
+          });
+        }
+        
+      });
+    }
+   
+    // email/password login
+    const handleEmailLogin = e => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        if(email === '' || password ===''){
+          Toast.fire({
+            icon: 'info',
+            title: 'email or password required'
+          });
+        }else{
+          signIn(email, password)
+          .then(res => {
+            console.log(res);
+            Toast.fire({
+              icon: 'success',
+              title: 'Email login success'
+            });
+          })
+          .catch(error => {
+            if( error.code ==="auth/user-not-found"){
+              Toast.fire({
+                icon: 'error',
+                title: 'Account not exits'
+              });
+            }else{
+              Toast.fire({
+                icon: 'error',
+                title: 'Unknown error'
+              });
+            }
+          })
+        }
+    }
     return (
         <>
         <NavBar></NavBar>
@@ -44,23 +126,18 @@ const LoginInPage = () => {
             <div className='text-center mb-3'>
               <p>Log in with:</p>
 
-              <button style={{"width":"36px","height":"36px"}} className='p-0 mx-1 btn btn-primary rounded-circle '>
-                <MDBIcon fab icon='facebook-f' />
-              </button>
-
               <button onClick={handleGoogleLogin} style={{"width":"36px","height":"36px"}} className='p-0 mx-1 btn btn-primary rounded-circle '>
                 <MDBIcon fab icon='google' />
               </button>
-
-              <button style={{"width":"36px","height":"36px"}} className='p-0 mx-1 btn btn-primary rounded-circle '>
+              <button onClick={handleGitHubLogin} style={{"width":"36px","height":"36px"}} className='p-0 mx-1 btn btn-primary rounded-circle '>
                 <MDBIcon fab icon='github' />
               </button>
             </div>
 
             <p className='text-center'>or:</p>
 
-            <MDBInput className='mb-4' type='email' id='form7Example1' label='Email address' />
-            <MDBInput className='mb-4' type='password' id='form7Example2' label='Password' />
+            <MDBInput required name='email' className='mb-4' type='email' id='form7Example1' label='Email address' />
+            <MDBInput required name='password' className='mb-4' type='password' id='form7Example2' label='Password' />
 
             <MDBRow className='mb-4'>
               <MDBCol className='d-flex justify-content-center'>

@@ -8,6 +8,7 @@ import './Dashboard.css';
 const Dashboard = () => {
     const [sidenav, setSidenav] = useState(true);
     const [userRole, setUserRole] = useState('');
+    const [showMeIcon, setShowIcon] = useState(false);
     // get current login user from context api
     const {user} = useContext(AuthContextInfo);
     if(user && user.email){
@@ -20,17 +21,19 @@ const Dashboard = () => {
             body : JSON.stringify({currentUserEmail})
         })
         .then(res => res.json())
-        .then(data => setUserRole(data[0].role));
+        .then(data => {
+            setUserRole(data[0].role);
+            setShowIcon(true);
+        });
     }
 
     const openSideBar = () => {
         setSidenav(!sidenav);
     }
-    const showIcon = true; 
 
     return (
         <>
-            <NavBar showIcon={showIcon} openSideBar = {openSideBar} sidenav = {sidenav} ></NavBar>
+            <NavBar showMeIcon={showMeIcon} openSideBar = {openSideBar} sidenav = {sidenav} ></NavBar>
            
             <div className='position-sticky sticky-top d-flex'>
                 <div  style={{"margin-left":`${sidenav ? '0px' : '-115px'}`}} className='side-nav shadow shadow-lg mt-2'>

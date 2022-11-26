@@ -2,12 +2,13 @@ import React, { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
 import { MDBIcon } from 'mdb-react-ui-kit';
 import { AuthContextInfo } from '../../authContext/AuthContext';
+const Swal = require('sweetalert2');
 
-const NavBar = ({showIcon, openSideBar, sidenav}) => {
+const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
     const [userRole, setUserRole] = useState('');
-
+    let defaultIconShow = showMeIcon || false;
     // get current login user from context api
-    const {user} = useContext(AuthContextInfo);
+    const {user, logOut} = useContext(AuthContextInfo);
     if(user && user.email){
         const currentUserEmail = user.email;
         fetch('http://localhost:5000/current-user-data',{
@@ -21,12 +22,36 @@ const NavBar = ({showIcon, openSideBar, sidenav}) => {
         .then(data => setUserRole(data[0].role));
     }
 
+    // handle logout
+    const handleLogOut = () => {
+        logOut()
+        .then(res => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              });
+              Toast.fire({
+                icon: 'success',
+                title: 'Logout success'
+              });
+            setUserRole('');
+        })
+        .catch(error => console.log(error));
+    }
+
     return (
-    <nav className=" navbar navbar-expand-lg navbar-light bg-light">
+    <nav className=" navbar navbar-expand-md navbar-light bg-light">
         <div className="container-fluid">
             <div className='d-flex align-items-center'>
                 {
-                    showIcon && <div className='toggleBtn'>
+                    defaultIconShow && <div className='toggleBtn'>
                         <span  className='mt-2 p-2 bg-light' onClick={()=>openSideBar(sidenav)} >
                             {sidenav ? 
                             <MDBIcon className='fs-4' fas icon="chevron-circle-left" /> 
@@ -70,13 +95,16 @@ const NavBar = ({showIcon, openSideBar, sidenav}) => {
                     <Link className="nav-link" to="/blogs">Blogs</Link>
                 </li>
                 {
-                    userRole === 'admin' || 'seller' ?  <li className="nav-item">
+                    userRole === 'admin'  &&
+                        <li className="nav-item">
                             <Link className="nav-link" to="/dashboard">Dashboard</Link>
                         </li>
-                        :
-                        <>
-                        
-                        </>
+                }
+                {
+                    userRole === 'seller'  &&
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                        </li>
                 }
                 {
                   userRole === 'buyer' ? <>
@@ -89,7 +117,9 @@ const NavBar = ({showIcon, openSideBar, sidenav}) => {
                   </>
                   :
                   <>
-                  
+                    {
+                        undefined
+                    }
                   </>
                 }
                 
@@ -106,7 +136,7 @@ const NavBar = ({showIcon, openSideBar, sidenav}) => {
                         alt="img"
                         loading="lazy"
                         />
-                        <button title='logout' className="btn bg-white text-reset me-3 rounded" to="#">
+                        <button onClick={handleLogOut} title='logout' className="btn bg-white text-reset me-3 rounded" to="#">
                             <MDBIcon className='text-danger' fas icon="sign-out-alt fs-6" />
                         </button>
                     </>
