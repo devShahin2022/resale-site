@@ -19,8 +19,9 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
         })
         .then(res => res.json())
         .then(data => {
-            // setUserRole(data[0].role)
             manageRole(data[0]?.role);
+            // set to context api
+
         });
     }
 

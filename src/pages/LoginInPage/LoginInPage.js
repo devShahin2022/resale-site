@@ -29,10 +29,37 @@ const LoginInPage = () => {
       }
     });
 
+    // data save to database
+    const saveRegisDataDb = (user, role) => {
+      const userData = {
+          name : user.name,
+          email : user.email,
+          role : role,
+          status : true,
+          isVerified : user.emailVerified
+      }
+      
+      fetch('http://localhost:5000/add-user',{
+              method : 'POST',
+              headers : {
+                  'content-type' : 'application/json'
+              },
+              body : JSON.stringify({userData})
+          })
+          .then(res => res.json())
+          .then(data => {
+              console.log(data);
+          })
+          .catch(error => {
+              console.log(error);
+          })
+
+      return ;
+    }
+  
 
 
     // provider login
-
     // google provider login
     const googleProvider = new GoogleAuthProvider();
     const handleGoogleLogin = () => {
@@ -42,6 +69,7 @@ const LoginInPage = () => {
               icon: 'success',
               title: 'Login success'
             });
+            saveRegisDataDb(result.user, 'buyer');
             navigate("/home");
         })
         .catch(error => {
@@ -62,6 +90,7 @@ const LoginInPage = () => {
             icon: 'success',
             title: 'Login success'
           });
+          saveRegisDataDb(result.user, 'buyer');
           navigate("/home");
       })
       .catch(error => {
@@ -99,8 +128,9 @@ const LoginInPage = () => {
             console.log(res);
             Toast.fire({
               icon: 'success',
-              title: 'Email login success'
+              title: 'login success'
             });
+            navigate("/home");
           })
           .catch(error => {
             if( error.code ==="auth/user-not-found"){

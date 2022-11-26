@@ -9,13 +9,17 @@ const AuthContext = ({children}) => {
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(true);
     const [role, setRole] = useState('');
+    const [userInfoFromDb, setCurrUserXinfo] = useState({});
 
 
 // role setup
 const manageRole = (r) => {
     setRole(r);
 }
-
+// current user extra info
+const extaraInfoCurrentUser = (eInfo) => {
+    setCurrUserXinfo(eInfo);
+}
 
 // provider login
 const providerLogin = (provider) =>{
@@ -62,7 +66,10 @@ const logOut = () => {
     },[]);
 
 
-    const authInfo = {loading, user, providerLogin, createUser, signIn ,logOut, addProfileNameAndImg, manageRole, role};
+    const authInfo = {loading, user, providerLogin, createUser,
+         signIn ,logOut, addProfileNameAndImg, manageRole, role, extaraInfoCurrentUser,
+         userInfoFromDb
+        };
    
     return (
         <AuthContextInfo.Provider value={authInfo}>

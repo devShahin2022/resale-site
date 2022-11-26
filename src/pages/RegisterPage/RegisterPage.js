@@ -19,9 +19,10 @@ const RegisterPage = () => {
     // get auth information
     const {providerLogin, createUser, addProfileNameAndImg, manageRole} = useContext(AuthContextInfo);
     
-// data save into db 
-    // provider login
+
     const navigate = useNavigate();
+
+    // tosatify
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -34,6 +35,7 @@ const RegisterPage = () => {
         }
       });
 
+    // data save into db 
       const saveRegisDataDb = (user, role) => {
         const userData = {
             name : user.name,
@@ -60,7 +62,7 @@ const RegisterPage = () => {
 
         return ;
       }
-  
+      // provider login
     // google provider login
     const googleProvider = new GoogleAuthProvider();
     const handleGoogleLoginR = () => {
