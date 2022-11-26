@@ -21,7 +21,6 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
         .then(data => {
             manageRole(data[0]?.role);
             // set to context api
-
         });
     }
 
@@ -131,6 +130,7 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
             <div className="d-flex align-items-center">
                 {
                     user && user?.email ? <>
+                        <small>{user?.displayName}</small>
                         <img
                         title={user?.displayName}
                         src={user?.photoURL}

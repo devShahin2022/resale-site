@@ -4,7 +4,7 @@ import { AuthContextInfo } from '../authContext/AuthContext';
 const Swal = require('sweetalert2');
 
 
-const SellerPrivateRoutes = ({children}) => {
+const CommonPrivateRoutes = ({children}) => {
     const {user, loading, logOut, userInfoFromDb} = useContext(AuthContextInfo);
     const navigate = useNavigate();
     
@@ -38,9 +38,9 @@ const SellerPrivateRoutes = ({children}) => {
     if(loading){
         return <div style={{"height":"70vh"}} className='d-flex justify-content-center align-item-center w-100'>
             <p>Loading</p>
-        </div>
+            </div>
     }
-    else if(user && user.uid && (userInfoFromDb.role === 'seller') ){
+    else if(user && user.uid && (userInfoFromDb.role === 'seller' || userInfoFromDb.role === 'admin')){
         return children;
     }
     else if(!user){
@@ -51,4 +51,4 @@ const SellerPrivateRoutes = ({children}) => {
     }
 };
 
-export default SellerPrivateRoutes;
+export default CommonPrivateRoutes;

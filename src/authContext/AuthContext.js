@@ -9,17 +9,15 @@ const AuthContext = ({children}) => {
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(true);
     const [role, setRole] = useState('');
-    const [userInfoFromDb, setCurrUserXinfo] = useState({});
-
-
+    const [userInfoFromDb, setUserInfoFromDb] = useState({});
+    
+    
+   
 // role setup
 const manageRole = (r) => {
     setRole(r);
 }
 // current user extra info
-const extaraInfoCurrentUser = (eInfo) => {
-    setCurrUserXinfo(eInfo);
-}
 
 // provider login
 const providerLogin = (provider) =>{
@@ -37,40 +35,64 @@ const signIn = (email,password) => {
     setLoading(true);
     return signInWithEmailAndPassword( auth,email,password);
 }
+
+
 // update profile
 const addProfileNameAndImg = (profileName, profileImage) => {
     return updateProfile(auth.currentUser,{
         displayName: profileName , photoURL: profileImage
     });
 }
-
 // logout
 const logOut = () => {
     setLoading(true);
     setUser(null);
     setRole('');
+    setUserInfoFromDb({});
     return signOut(auth);
 }
 
-    useEffect(()=>{
-        const unsubscribe =  onAuthStateChanged(auth,(currentUser) => {
-            //console.log("user inside state change",currentUser);
-            setUser(currentUser);
-            setLoading(false);
-        });
 
-        return () => {
-            unsubscribe();
-        } 
+    const useE = async () => {
+        useEffect( () => {
+            const unsubscribe =  onAuthStateChanged(auth,(currentUser) => {
+                if(currentUser && currentUser.uid){
+                    const currentUserEmail = currentUser.email;
+                    if(currentUserEmail){
+                            fetch('http://localhost:5000/current-user-data',{
+                            method : "POST",
+                            headers : {
+                                'content-type' : 'application/json'
+                            },
+                            body : JSON.stringify({currentUserEmail})
+                        })
+                        .then( async res => res.json())
+                        .then( async data => {
+                            setUserInfoFromDb(data[0]);
+                            // console.log('data from db', data[0]);
+                            setLoading(false);
+                        });
+                    }
+                }
+                setUser(currentUser);
+                setLoading(false);
+            });
+            // set current user extra info from db
+            return () => {
+                unsubscribe();
+            } 
+    
+        },[]);
+    } 
+    useE();
 
-    },[]);
-
+    // console.log(' user info ', user);
+    // console.log(' current info ', userInfoFromDb);
 
     const authInfo = {loading, user, providerLogin, createUser,
-         signIn ,logOut, addProfileNameAndImg, manageRole, role, extaraInfoCurrentUser,
-         userInfoFromDb
-        };
-   
+        signIn ,logOut, addProfileNameAndImg, manageRole, role,
+        userInfoFromDb
+    };
     return (
         <AuthContextInfo.Provider value={authInfo}>
             {children}
