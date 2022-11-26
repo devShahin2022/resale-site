@@ -1,14 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { MDBIcon } from 'mdb-react-ui-kit';
 import { AuthContextInfo } from '../../authContext/AuthContext';
 const Swal = require('sweetalert2');
 
 const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
-    const [userRole, setUserRole] = useState('');
     let defaultIconShow = showMeIcon || false;
     // get current login user from context api
-    const {user, logOut} = useContext(AuthContextInfo);
+    const {user, logOut, manageRole, role} = useContext(AuthContextInfo);
     if(user && user.email){
         const currentUserEmail = user.email;
         fetch('http://localhost:5000/current-user-data',{
@@ -19,7 +18,10 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
             body : JSON.stringify({currentUserEmail})
         })
         .then(res => res.json())
-        .then(data => setUserRole(data[0].role));
+        .then(data => {
+            // setUserRole(data[0].role)
+            manageRole(data[0]?.role);
+        });
     }
 
     // handle logout
@@ -41,7 +43,7 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
                 icon: 'success',
                 title: 'Logout success'
               });
-            setUserRole('');
+            // setUserRole('');
         })
         .catch(error => console.log(error));
     }
@@ -95,19 +97,19 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
                     <Link className="nav-link" to="/blogs">Blogs</Link>
                 </li>
                 {
-                    userRole === 'admin'  &&
+                    role === 'admin'  &&
                         <li className="nav-item">
                             <Link className="nav-link" to="/dashboard">Dashboard</Link>
                         </li>
                 }
                 {
-                    userRole === 'seller'  &&
+                    role === 'seller'  &&
                         <li className="nav-item">
                             <Link className="nav-link" to="/dashboard">Dashboard</Link>
                         </li>
                 }
                 {
-                  userRole === 'buyer' ? <>
+                  role === 'buyer' ? <>
                     <li className="nav-item">
                         <Link className="nav-link" to="/my-orders">My orders</Link>
                     </li>

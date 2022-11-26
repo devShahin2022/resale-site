@@ -17,11 +17,11 @@ const RegisterPage = () => {
     const [isActiveSeller, setIsActiveSeller] = useState(false);
     const [isActiveBuyer, setIsActiveBuyer] = useState(false);
     // get auth information
-    const {providerLogin, createUser, addProfileNameAndImg} = useContext(AuthContextInfo);
+    const {providerLogin, createUser, addProfileNameAndImg, manageRole} = useContext(AuthContextInfo);
+    
+// data save into db 
     // provider login
-
     const navigate = useNavigate();
-
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -33,20 +33,48 @@ const RegisterPage = () => {
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
       });
-  
 
+      const saveRegisDataDb = (user, role) => {
+        const userData = {
+            name : user.name,
+            email : user.email,
+            role : role,
+            status : true,
+            isVerified : user.emailVerified
+        }
+        
+        fetch('http://localhost:5000/add-user',{
+                method : 'POST',
+                headers : {
+                    'content-type' : 'application/json'
+                },
+                body : JSON.stringify({userData})
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+        return ;
+      }
+  
     // google provider login
     const googleProvider = new GoogleAuthProvider();
-    const handleGoogleLogin = () => {
+    const handleGoogleLoginR = () => {
         providerLogin(googleProvider)
         .then(result => {
             Toast.fire({
-              icon: 'success',
-              title: 'Login success'
+                icon: 'success',
+                title: 'Login success'
             });
+            saveRegisDataDb(result.user, 'buyer');
             navigate("/home");
         })
         .catch(error => {
+            console.log(error);
           Toast.fire({
             icon: 'error',
             title: 'Login error'
@@ -59,7 +87,7 @@ const RegisterPage = () => {
     const handleGitHubLogin = () => {
       providerLogin(gitHubProvider)
       .then(result => {
-        console.log(result);
+        saveRegisDataDb(result.user, 'buyer');
           Toast.fire({
             icon: 'success',
             title: 'Login success'
@@ -67,8 +95,6 @@ const RegisterPage = () => {
           navigate("/home");
       })
       .catch(error => {
-        console.log('error code', error.code);
-        console.log('error message', error.message);
         if( error.code === 'auth/account-exists-with-different-credential'){
           Toast.fire({
             icon: 'error',
@@ -80,7 +106,6 @@ const RegisterPage = () => {
             title: 'Unknown error'
           });
         }
-        
       });
     }
     // create a new account
@@ -146,6 +171,8 @@ const RegisterPage = () => {
                         icon: 'success',
                         title: 'Account create success'
                     });
+                    saveRegisDataDb(data.user, accountType);
+                    manageRole(accountType);
                     navigate('/home');
                 })
                 .catch(error => {
@@ -184,7 +211,7 @@ const RegisterPage = () => {
                 <div className='text-center mb-3'>
                 <p>Register with:</p>
 
-                <button onClick={handleGoogleLogin} style={{"width":"36px","height":"36px"}} className='p-0 mx-1 btn btn-primary rounded-circle '>
+                <button onClick={handleGoogleLoginR} style={{"width":"36px","height":"36px"}} className='p-0 mx-1 btn btn-primary rounded-circle '>
                 <MDBIcon fab icon='google' />
               </button>
               <button onClick={handleGitHubLogin} style={{"width":"36px","height":"36px"}} className='p-0 mx-1 btn btn-primary rounded-circle '>

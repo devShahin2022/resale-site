@@ -8,11 +8,19 @@ export const AuthContextInfo = createContext();
 const AuthContext = ({children}) => {
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(true);
+    const [role, setRole] = useState('');
 
-    // provider login
-    const providerLogin = (provider) =>{
-        return signInWithPopup(auth,provider);
-    }
+
+// role setup
+const manageRole = (r) => {
+    setRole(r);
+}
+
+
+// provider login
+const providerLogin = (provider) =>{
+    return signInWithPopup(auth,provider);
+}
 
 // create user
 const createUser = (email,password) => {
@@ -36,6 +44,7 @@ const addProfileNameAndImg = (profileName, profileImage) => {
 const logOut = () => {
     setLoading(true);
     setUser(null);
+    setRole('');
     return signOut(auth);
 }
 
@@ -53,7 +62,7 @@ const logOut = () => {
     },[]);
 
 
-    const authInfo = {loading, user, providerLogin, createUser, signIn ,logOut, addProfileNameAndImg};
+    const authInfo = {loading, user, providerLogin, createUser, signIn ,logOut, addProfileNameAndImg, manageRole, role};
    
     return (
         <AuthContextInfo.Provider value={authInfo}>
