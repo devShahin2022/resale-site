@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContextInfo } from '../../../authContext/AuthContext';
 import { MDBIcon } from 'mdb-react-ui-kit';
+const Swal = require('sweetalert2');
 
 const Myprod = () => {
     const [product, setProduct] = useState([]);
@@ -10,6 +11,22 @@ const Myprod = () => {
     // uploadedTime
     const navigate = useNavigate();
     const currentUserEmail = user.email;
+
+
+    // toast
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      });
+
+
 
     useEffect(()=>{
         if(role === 'seller'){
@@ -33,6 +50,79 @@ const Myprod = () => {
             })
         }
     },[role,product,currentUserEmail]);
+
+    const makeAdvirtised = (id) => {
+        if(role === 'seller'){
+            fetch('http://localhost:5000/make-advirtised', {
+                method : "PUT",
+                headers : {
+                    "content-type" : "application/json"
+                },
+                body : JSON.stringify({id})
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.acknowledged){
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'success ! product ready to advertised',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                }
+            })
+            .catch(error => {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'fail ! something wrong'
+                });
+            })
+        }else{
+            logOut()
+            .then(res => {
+                navigate('/login');
+            })
+        }
+    }
+
+    // delete product 
+    const deleteProduct = (id) => {
+        if(role === 'seller') {
+              Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.isConfirmed) {
+
+                    fetch('http://localhost:5000/delete-product',{
+                    method : 'DELETE',
+                    headers : {
+                        "content-type" : "application/json"
+                    },
+                    body : JSON.stringify({id})
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                  Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                }
+              })
+        }
+    }
 
     return (
         <div>
@@ -144,14 +234,14 @@ const Myprod = () => {
                                 }
                             </td>
                             <td className=''>
-                                <button type="button" className="px-3 py-2 me-1 btn btn-sm btn-rounded btn-danger">
+                                <button onClick={() => deleteProduct(each._id)} type="button" className="px-3 py-2 me-1 btn btn-sm btn-rounded btn-danger">
                                     <MDBIcon fas icon="trash" />
                                 </button>
                                 <button type="button" className="px-3 py-2 me-1 btn btn-sm btn-rounded btn-info">
                                     <MDBIcon far icon="edit" />
                                 </button>
                                 {
-                                    !each.advirtised && <button type="button" className="px-3 py-2 me-1 btn btn-sm btn-rounded btn-primary">
+                                    !each.advirtised && <button onClick={() => makeAdvirtised(each._id)} type="button" className="px-3 py-2 me-1 btn btn-sm btn-rounded btn-primary">
                                             Make advirtised
                                         </button>
                                 }

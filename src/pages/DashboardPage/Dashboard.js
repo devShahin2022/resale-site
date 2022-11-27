@@ -36,7 +36,7 @@ const Dashboard = ({children}) => {
         <>
             <NavBar showMeIcon={showMeIcon} openSideBar = {openSideBar} sidenav = {sidenav} ></NavBar>
            
-            <div className='d-flex'>
+            <div  className='d-flex'>
                 <div  style={{"margin-left":`${sidenav ? '0px' : '-115px'}`}} className='side-nav shadow shadow-lg mt-2'>
                     {
                         userRole === 'admin' ? 
@@ -69,7 +69,7 @@ const Dashboard = ({children}) => {
                         </>
                     }
                 </div>
-                <div className='container-fluid mt-4'>
+                <div style={{"padding-bottom":"10rem"}} className='container-fluid mt-4'>
                     {/* component load here */}
                     {
                         children ? 
