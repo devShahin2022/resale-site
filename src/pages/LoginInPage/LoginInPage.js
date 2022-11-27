@@ -125,7 +125,6 @@ const LoginInPage = () => {
         }else{
           signIn(email, password)
           .then(res => {
-            console.log(res);
             Toast.fire({
               icon: 'success',
               title: 'login success'

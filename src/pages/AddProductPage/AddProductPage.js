@@ -1,10 +1,13 @@
 import React from 'react';
+import Dashboard from '../DashboardPage/Dashboard';
+import AddProd from './Component/AddProd';
 
 const AddProductPage = () => {
+    const clickMe = () => {
+        alert('Iam ok');
+    }
     return (
-        <div>
-            <h1>Add product page</h1>
-        </div>
+        <Dashboard> <AddProd clickMe={clickMe} ></AddProd> </Dashboard>
     );
 };
 

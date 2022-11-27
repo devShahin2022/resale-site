@@ -1,10 +1,10 @@
 import React from 'react';
+import Dashboard from '../DashboardPage/Dashboard';
+import Mybuyer from './componets/Mybuyer';
 
 const MyBuyer = () => {
     return (
-        <div>
-            <h1>My buyers page</h1>
-        </div>
+        <Dashboard><Mybuyer></Mybuyer></Dashboard>
     );
 };
 

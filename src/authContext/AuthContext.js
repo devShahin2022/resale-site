@@ -4,7 +4,6 @@ import app from '../fireBase/firebaseConfig';
 
 const auth = getAuth(app);
 export const AuthContextInfo = createContext();
-
 const AuthContext = ({children}) => {
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(true);
@@ -52,8 +51,6 @@ const logOut = () => {
     return signOut(auth);
 }
 
-
-    const useE = async () => {
         useEffect( () => {
             const unsubscribe =  onAuthStateChanged(auth,(currentUser) => {
                 if(currentUser && currentUser.uid){
@@ -69,13 +66,14 @@ const logOut = () => {
                         .then( async res => res.json())
                         .then( async data => {
                             setUserInfoFromDb(data[0]);
-                            // console.log('data from db', data[0]);
+                            setUser(currentUser);
                             setLoading(false);
                         });
                     }
+                }else{
+                    setUser(currentUser);
+                    setLoading(false);
                 }
-                setUser(currentUser);
-                setLoading(false);
             });
             // set current user extra info from db
             return () => {
@@ -83,8 +81,6 @@ const logOut = () => {
             } 
     
         },[]);
-    } 
-    useE();
 
     // console.log(' user info ', user);
     // console.log(' current info ', userInfoFromDb);
@@ -93,6 +89,7 @@ const logOut = () => {
         signIn ,logOut, addProfileNameAndImg, manageRole, role,
         userInfoFromDb
     };
+
     return (
         <AuthContextInfo.Provider value={authInfo}>
             {children}

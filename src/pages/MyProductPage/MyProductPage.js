@@ -1,10 +1,10 @@
 import React from 'react';
+import Dashboard from '../DashboardPage/Dashboard';
+import Myprod from './Components/Myprod';
 
 const MyProductPage = () => {
     return (
-        <div>
-            <h1>My product page</h1>
-        </div>
+        <Dashboard><Myprod></Myprod></Dashboard>
     );
 };
 

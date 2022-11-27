@@ -57,45 +57,52 @@ export const router = createBrowserRouter([
         element : <BuyerPrivateRoutes><WishList></WishList> </BuyerPrivateRoutes>
     },
     
-    // seller private routes
-    {
-        path : '/add-products',
-        element : <SellerPrivateRoutes> <AddProductPage></AddProductPage> </SellerPrivateRoutes>
-    },
-    {
-        path : '/my-products',
-        element : <SellerPrivateRoutes> <MyProductPage></MyProductPage> </SellerPrivateRoutes>
-    },
-    {
-        path : '/my-buyers',
-        element : <SellerPrivateRoutes> <MyBuyer></MyBuyer> </SellerPrivateRoutes>
-    },
-    // admin private routes
-    {
-        path : '/all-product',
-        element : <AdminPrivateRoute> <AllProductsPage></AllProductsPage></AdminPrivateRoute>
-    },
-    {
-        path : '/total-user',
-        element : <AdminPrivateRoute> <TotalUserPage></TotalUserPage> </AdminPrivateRoute>
-    },
-    {
-        path : '/all-seller',
-        element : <AdminPrivateRoute> <AllSeller></AllSeller> </AdminPrivateRoute>
-    },
-    {
-        path : '/all-buyer',
-        element : <AdminPrivateRoute> <AllBuyerPage></AllBuyerPage> </AdminPrivateRoute>
-    },
-    {
-        path : '/reported-products',
-        element : <AdminPrivateRoute> <ReportedProducts></ReportedProducts> </AdminPrivateRoute>
-    },
-
-    // common private route
     {
         path : '/dashboard',
-        element : <CommonPrivateRoutes><Dashboard></Dashboard></CommonPrivateRoutes>
+        children : [
+
+            // common private route
+            {
+                path : '/dashboard',
+                element : <CommonPrivateRoutes><Dashboard></Dashboard></CommonPrivateRoutes>
+            },
+            
+            // seller private routes
+            {
+                path : '/dashboard/add-products',
+                element : <SellerPrivateRoutes> <AddProductPage></AddProductPage> </SellerPrivateRoutes>
+            },
+            {
+                path : '/dashboard/my-products',
+                element : <SellerPrivateRoutes> <MyProductPage></MyProductPage> </SellerPrivateRoutes>
+            },
+            {
+                path : '/dashboard/my-buyers',
+                element : <SellerPrivateRoutes> <MyBuyer></MyBuyer> </SellerPrivateRoutes>
+            },
+
+            // admin private routes
+            {
+                path : '/dashboard/all-product',
+                element : <AdminPrivateRoute> <AllProductsPage></AllProductsPage></AdminPrivateRoute>
+            },
+            {
+                path : '/dashboard/total-user',
+                element : <AdminPrivateRoute> <TotalUserPage></TotalUserPage> </AdminPrivateRoute>
+            },
+            {
+                path : '/dashboard/all-seller',
+                element : <AdminPrivateRoute> <AllSeller></AllSeller> </AdminPrivateRoute>
+            },
+            {
+                path : '/dashboard/all-buyer',
+                element : <AdminPrivateRoute> <AllBuyerPage></AllBuyerPage> </AdminPrivateRoute>
+            },
+            {
+                path : '/dashboard/reported-products',
+                element : <AdminPrivateRoute> <ReportedProducts></ReportedProducts> </AdminPrivateRoute>
+            }
+        ]  
     },
     
     // 404 page

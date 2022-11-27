@@ -9,7 +9,7 @@ const CommonPrivateRoutes = ({children}) => {
     const navigate = useNavigate();
     
 
-    // console.log('from private route', user, userInfoFromDb);
+    console.log('from private route', user, userInfoFromDb);
     const handleLogOut = () => {
         console.log('click logout btn');
         logOut()
