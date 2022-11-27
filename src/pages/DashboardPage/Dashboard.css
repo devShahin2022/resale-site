@@ -1,6 +1,6 @@
 .side-nav{
     background-color: rgb(238, 238, 238);
-    height: 100vh !important;
+    height: auto !important;
     padding: 0 .7rem;
     padding-top: 1.6rem;
     transition: all .2s ease-in !important;

@@ -129,19 +129,54 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
             </div>
             <div className="d-flex align-items-center">
                 {
-                    user && user?.email ? <>
-                        <small>{user?.displayName}</small>
-                        <img
-                        title={user?.displayName}
-                        src={user?.photoURL}
-                        className="rounded-circle me-2 border-2"
-                        height="30"
-                        alt="img"
-                        loading="lazy"
-                        />
-                        <button onClick={handleLogOut} title='logout' className="btn bg-white text-reset me-3 rounded" to="#">
-                            <MDBIcon className='text-danger' fas icon="sign-out-alt fs-6" />
-                        </button>
+                    user && user?.email ? 
+                    <>
+                        {
+                            role !== 'admin' ? 
+                            <>
+                                <div className="dropdown">
+                                <button
+                                    style={{"backgroundColor":"transparent"}}
+                                    className="btn p-0 m-0 dropdown-toggle me-2 shadow-0 border p-1 border-1"
+                                    type="button"
+                                    id="dropdownMenuButton"
+                                    data-mdb-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <small>{user?.displayName}</small>
+                                    <img
+                                    title={user?.displayName}
+                                    src={user?.photoURL}
+                                    className="rounded-circle border-2"
+                                    height="30"
+                                    alt="img"
+                                    loading="lazy"
+                                    />
+                                </button>
+                                <ul style={{"zIndex" : "222222"}} className="dropdown-menu bg-dark p-3 shadow shadow-3" aria-labelledby="dropdownMenuButton">
+                                    <button className='btn btn-dark w-100'>Switch to buyer mood</button>
+                                </ul>
+                                </div>
+                                <button onClick={handleLogOut} title='logout' className="btn bg-white text-reset me-3 rounded" to="#">
+                                    <MDBIcon className='text-danger' fas icon="sign-out-alt fs-6" />
+                                </button>
+                            </>
+                            :
+                            <>
+                                <small>{user?.displayName}</small>
+                                    <img
+                                    title={user?.displayName}
+                                    src={user?.photoURL}
+                                    className="rounded-circle border-2 me-2"
+                                    height="30"
+                                    alt="img"
+                                    loading="lazy"
+                                    />
+                                <button onClick={handleLogOut} title='logout' className="btn bg-white text-reset me-3 rounded" to="#">
+                                    <MDBIcon className='text-danger' fas icon="sign-out-alt fs-6" />
+                                </button>
+                            </>
+                        }
                     </>
                     :
                     <>

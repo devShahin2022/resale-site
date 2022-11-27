@@ -2,6 +2,7 @@ import { MDBIcon } from 'mdb-react-ui-kit';
 import React, {useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContextInfo } from '../../authContext/AuthContext';
+import Footer from '../../components/Footer/Footer';
 import NavBar from '../../components/NavBar/NavBar';
 import './Dashboard.css';
 
@@ -35,7 +36,7 @@ const Dashboard = ({children}) => {
         <>
             <NavBar showMeIcon={showMeIcon} openSideBar = {openSideBar} sidenav = {sidenav} ></NavBar>
            
-            <div className='position-sticky sticky-top d-flex'>
+            <div className='d-flex'>
                 <div  style={{"margin-left":`${sidenav ? '0px' : '-115px'}`}} className='side-nav shadow shadow-lg mt-2'>
                     {
                         userRole === 'admin' ? 
@@ -70,10 +71,36 @@ const Dashboard = ({children}) => {
                 </div>
                 <div className='container-fluid mt-4'>
                     {/* component load here */}
-                    {children}
+                    {
+                        children ? 
+                        
+                        <>
+                            {children}
+                        </>
+                        :
+                        <>
+                            <div className='container'>
+                                <h1 className='display-3 text-center my-4 text-primary'>Welcome to your dashboard</h1>
+                                <div className='row d-flex justify-content-center'>
+                                    <div className='rounded-5 col-md-3 d-flex justify-content-center bg-primary m-3 text-white align-items-center border-rounded py-5 px-2'>
+                                        <h3>Your current orders</h3>
+                                    </div>
+                                    <div className='rounded-5 col-md-3 d-flex justify-content-center bg-danger m-3 text-white align-items-center border-rounded py-5 px-2'>
+                                        <h3>Your total products</h3>
+                                    </div>
+                                    <div className='rounded-5 col-md-3 d-flex justify-content-center bg-success m-3 text-white align-items-center border-rounded py-5 px-2'>
+                                        <h3>Advertised product</h3>
+                                    </div>
+                                    <div className='rounded-5 col-md-3 d-flex justify-content-center bg-info m-3 text-white align-items-center border-rounded py-5 px-2'>
+                                        <h3>Booked products</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    }
                 </div>
             </div>
-                    
+                <Footer></Footer>    
         </>
     );
 };

@@ -135,7 +135,7 @@ const RegisterPage = () => {
             });
         }else{
             if(profileImage){
-                const url = `https://api.imgbb.com/1/upload?expiration=600&key=4a3bb29092c702c35c37b163232f9257`;
+                const url = `https://api.imgbb.com/1/upload?expiration=600&key=${process.env.REACT_APP_imgBBKey}`;
                 formData.append('image', profileImage);
                 await fetch(url, {
                     method : 'POST',

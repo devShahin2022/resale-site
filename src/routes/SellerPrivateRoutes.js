@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContextInfo } from '../authContext/AuthContext';
+import { MDBSpinner } from 'mdb-react-ui-kit';
 const Swal = require('sweetalert2');
 
 
@@ -36,9 +37,11 @@ const SellerPrivateRoutes = ({children}) => {
 
 
     if(loading){
-        return <div style={{"height":"70vh"}} className='d-flex justify-content-center align-item-center w-100'>
-            <p>Loading</p>
-        </div>
+        return <div style={{"height":"100vh"}} className='d-flex justify-content-center w-100 align-items-center'>
+                <MDBSpinner role='status'>
+                        <span className='visually-hidden'>Loading...</span>
+                </MDBSpinner>
+            </div>
     }
     else if(user && user.uid && (userInfoFromDb.role === 'seller') ){
         return children;
