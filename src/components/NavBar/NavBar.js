@@ -143,8 +143,9 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
                                     data-mdb-toggle="dropdown"
                                     aria-expanded="false"
                                 >
-                                    <small>{user?.displayName}</small>
+                                    <small className='me-1'>{user?.displayName}</small>
                                     <img
+                                    width="30"
                                     title={user?.displayName}
                                     src={user?.photoURL}
                                     className="rounded-circle border-2"
@@ -163,8 +164,9 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
                             </>
                             :
                             <>
-                                <small>{user?.displayName}</small>
+                                <small className='me-1'>{user?.displayName}</small>
                                     <img
+                                    width="30"
                                     title={user?.displayName}
                                     src={user?.photoURL}
                                     className="rounded-circle border-2 me-2"

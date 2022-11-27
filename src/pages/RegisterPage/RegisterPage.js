@@ -2,7 +2,12 @@ import React, { useContext, useState } from 'react';
 import {
     MDBInput,
     MDBCheckbox,
-    MDBIcon
+    MDBIcon,
+    MDBModal,
+    MDBModalDialog,
+    MDBModalContent,
+    MDBModalBody,
+    MDBSpinner ,
   } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar';
@@ -16,6 +21,13 @@ import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 const RegisterPage = () => {
     const [isActiveSeller, setIsActiveSeller] = useState(false);
     const [isActiveBuyer, setIsActiveBuyer] = useState(false);
+
+    // this state for loading animation
+    const [staticModal, setStaticModal] = useState(false);
+    const [uploadSuccess, setUploadSuccess] = useState(false);
+    const toggleShow = () => setStaticModal(!staticModal);
+
+
     // get auth information
     const {providerLogin, createUser, addProfileNameAndImg, manageRole} = useContext(AuthContextInfo);
     
@@ -116,6 +128,8 @@ const RegisterPage = () => {
     const formData = new FormData();
     const createAccount = async (e) => {
         e.preventDefault();
+        toggleShow();
+
         const form = e.target;
         const name = form.fullname.value;
         const email = form.email.value;
@@ -135,7 +149,7 @@ const RegisterPage = () => {
             });
         }else{
             if(profileImage){
-                const url = `https://api.imgbb.com/1/upload?expiration=600&key=${process.env.REACT_APP_imgBBKey}`;
+                const url = `https://api.imgbb.com/1/upload?expiration=600&key=4a3bb29092c702c35c37b163232f9257`;
                 formData.append('image', profileImage);
                 await fetch(url, {
                     method : 'POST',
@@ -148,6 +162,7 @@ const RegisterPage = () => {
                         const ImgUrl =await data.data.url;
                         profileImageLink = ImgUrl;
                     }else{
+                        setUploadSuccess(true);
                         Toast.fire({
                             icon: 'error',
                             title: 'Please input valid file (jpg, png, pdf, gif) upto 32mb'
@@ -155,6 +170,7 @@ const RegisterPage = () => {
                     }
                 })
                 .catch(error => {
+                    setUploadSuccess(true);
                     Toast.fire({
                         icon: 'info',
                         title: 'img not upload'
@@ -169,6 +185,7 @@ const RegisterPage = () => {
                 // here updata profile images
                 addProfileNameAndImg(name, profileImageLink)
                 .then(res => {
+                    setUploadSuccess(true);
                     Toast.fire({
                         icon: 'success',
                         title: 'Account create success'
@@ -178,6 +195,7 @@ const RegisterPage = () => {
                     navigate('/home');
                 })
                 .catch(error => {
+                    setUploadSuccess(true);
                     Toast.fire({
                         icon: 'error',
                         title: error.code
@@ -187,16 +205,19 @@ const RegisterPage = () => {
             })
             .catch(error => {
                 if(error.code === 'auth/email-already-in-use'){
+                    setUploadSuccess(true);
                     Toast.fire({
                         icon: 'error',
                         title: 'Email already used'
                     });
                 }else if( error.code ==='auth/weak-password'){
+                    setUploadSuccess(true);
                     Toast.fire({
                         icon: 'error',
                         title: 'Please give a strong a password minimum 6 character'
                     });
                 }else{
+                    setUploadSuccess(true);
                     Toast.fire({
                         icon: 'error',
                         title: error.code
@@ -205,6 +226,14 @@ const RegisterPage = () => {
             });
         }
     }
+
+    // this section for loading animation
+if(uploadSuccess){
+    setUploadSuccess(false);
+    toggleShow();
+}
+
+
     return (
         <>
             <NavBar></NavBar>
@@ -251,6 +280,23 @@ const RegisterPage = () => {
                 </div>
             </form>
             </div>
+                {/* Loading modal */}
+                <MDBModal staticBackdrop tabIndex='-1' show={staticModal} setShow={setStaticModal}>
+                    <MDBModalDialog>
+                        <MDBModalContent>
+                        <MDBModalBody>
+                            <p className='text-center mt-4 mb-2'>Please wait a moment</p>
+                            <div className='text-center'>
+                                <MDBSpinner className='mb-4' role='status'>
+                                    <span className='visually-hidden'>Loading...</span>
+                                </MDBSpinner>
+                            </div>
+                        </MDBModalBody>
+                        </MDBModalContent>
+                    </MDBModalDialog>
+                    </MDBModal>
+                {/* Loading modal end*/}
+
             <Footer></Footer>
         </>
     );
