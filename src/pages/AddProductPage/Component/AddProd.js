@@ -14,7 +14,7 @@ const Swal = require('sweetalert2');
 const AddProd = () => {
 
     // auth context
-    const {user, logOut} = useContext(AuthContextInfo);
+    const {user, logOut, role} = useContext(AuthContextInfo);
 
     // navigate
     const navigate = useNavigate();
@@ -87,10 +87,12 @@ const AddProd = () => {
 
         // extra field store to db
         const advirtised = false;
-        const currentUseEmail = user.email;
+        const userEmail = user.email;
         const uploadedTime = Date.now(); // give miliseconds
+        const isBooked = false;
+        const isPaid = false;
 
-        if(currentUseEmail){
+        if(userEmail && role === 'seller'){ //user role diye dite hobe
             if(
                 brandName !== '' && phoneModel !== '' && phoneCondition !== '' &&
                 brandNewPrice !== '' && resalePrice !== '' && phoneUsed !== '' &&
@@ -108,21 +110,45 @@ const AddProd = () => {
                     .then(  data => {
                         if(data.success){
                             const ImgUrl = data.data.url;
-                            console.log(ImgUrl);
+                            // console.log(ImgUrl);
                             if(ImgUrl){
                                 // here our we will upload data on server
                                 // make a data object
                                 const uploadProductData = {
                                     brandName,phoneModel,phoneCondition,
                                     brandNewPrice,resalePrice,phoneUsed,
-                                    location,number,desc,ImgUrl,currentUseEmail,
-                                    uploadedTime,advirtised
+                                    location,number,desc,ImgUrl,userEmail,
+                                    uploadedTime,advirtised, isBooked, isPaid
                                 }
 
-                                
-                                form.reset();
-                                console.log('information', uploadProductData);
-                                setUploadSuccess(true);
+                                fetch('http://localhost:5000/add-product',{
+                                    method : 'POST',
+                                    headers : {
+                                        'content-type':'application/json'
+                                    },
+                                    body : JSON.stringify({uploadProductData})
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    if(data.acknowledged){
+                                        form.reset();
+                                        // console.log('information', uploadProductData);
+                                        setUploadSuccess(true);
+                                        Toast.fire({
+                                            icon: 'success',
+                                            title: 'success fully data insert'
+                                        });
+                                    }else{
+                                        Toast.fire({
+                                            icon: 'error',
+                                            title: 'fail! data not insert'
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    setUploadSuccess(true);
+                                    console.log(error);
+                                })
                             }
                         }else{
                             setUploadSuccess(true);
@@ -161,10 +187,6 @@ const AddProd = () => {
 if(uploadSuccess){
     setUploadSuccess(false);
     toggleShow();
-    Toast.fire({
-        icon: 'success',
-        title: 'Product upload success'
-    });
     navigate('/dashboard/my-products');
 }
 
