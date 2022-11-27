@@ -89,8 +89,7 @@ const AddProd = () => {
         const advirtised = false;
         const userEmail = user.email;
         const uploadedTime = Date.now(); // give miliseconds
-        const isBooked = false;
-        const isPaid = false;
+        const status = 'available'; // available , sold, booked, disabled
 
         if(userEmail && role === 'seller'){ //user role diye dite hobe
             if(
@@ -110,7 +109,6 @@ const AddProd = () => {
                     .then(  data => {
                         if(data.success){
                             const ImgUrl = data.data.url;
-                            // console.log(ImgUrl);
                             if(ImgUrl){
                                 // here our we will upload data on server
                                 // make a data object
@@ -118,7 +116,7 @@ const AddProd = () => {
                                     brandName,phoneModel,phoneCondition,
                                     brandNewPrice,resalePrice,phoneUsed,
                                     location,number,desc,ImgUrl,userEmail,
-                                    uploadedTime,advirtised, isBooked, isPaid
+                                    uploadedTime,advirtised, status
                                 }
 
                                 fetch('http://localhost:5000/add-product',{
@@ -132,7 +130,6 @@ const AddProd = () => {
                                 .then(data => {
                                     if(data.acknowledged){
                                         form.reset();
-                                        // console.log('information', uploadProductData);
                                         setUploadSuccess(true);
                                         Toast.fire({
                                             icon: 'success',
