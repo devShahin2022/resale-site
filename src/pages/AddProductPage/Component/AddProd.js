@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContextInfo } from '../../../authContext/AuthContext';
 import {
@@ -12,6 +12,10 @@ const Swal = require('sweetalert2');
 
 
 const AddProd = () => {
+
+    // state
+
+    const [allBrand, setBrand]  = useState([]);
 
     // auth context
     const {user, logOut, role} = useContext(AuthContextInfo);
@@ -33,32 +37,15 @@ const AddProd = () => {
         }
       });
 
-
-    // all category fake data
-    const allCategory = [
-        {
-            name : 'Symphony'
-        },
-        {
-            name : 'Nokia'
-        },
-        {
-            name : 'Samsung'
-        },
-        {
-            name : 'Symphony'
-        },
-        {
-            name : 'Symphony'
-        },
-        {
-            name : 'Symphony'
-        },
-        {
-            name : 'Symphony'
+    useEffect(() => {
+        if(role === 'seller'){
+            fetch('http://localhost:5000/all-category')
+            .then(res => res.json())
+            .then(data => {
+                setBrand(data);
+            })
         }
-    ];
-
+    }, [])
 
     // this state for loading animation
     const [staticModal, setStaticModal] = useState(false);
@@ -74,7 +61,7 @@ const AddProd = () => {
         const formData = new FormData();
 
         const form = e.target;
-        const brandName = form.brand.value;
+        const brandId = form.brand.value;
         const phoneModel = form.model.value;
         const phoneCondition = form.condtion.value;
         const brandNewPrice = form.brandNewPrice.value;
@@ -85,15 +72,23 @@ const AddProd = () => {
         const desc = form.desc.value;
         const file = form.file.files[0];
 
+
+        //  get brand name
+        
+        
+
+
+
         // extra field store to db
         const advirtised = false;
         const userEmail = user.email;
         const uploadedTime = Date.now(); // give miliseconds
         const status = 'available'; // available , sold, booked, disabled
+        const isVerified = user.emailVerified;
 
         if(userEmail && role === 'seller'){ //user role diye dite hobe
             if(
-                brandName !== '' && phoneModel !== '' && phoneCondition !== '' &&
+                phoneModel !== '' && phoneCondition !== '' &&
                 brandNewPrice !== '' && resalePrice !== '' && phoneUsed !== '' &&
                 location !== '' && number !== '' && desc !== '' && file !== ''
             ){
@@ -113,10 +108,11 @@ const AddProd = () => {
                                 // here our we will upload data on server
                                 // make a data object
                                 const uploadProductData = {
-                                    brandName,phoneModel,phoneCondition,
+                                    phoneModel,phoneCondition,
                                     brandNewPrice,resalePrice,phoneUsed,
                                     location,number,desc,ImgUrl,userEmail,
-                                    uploadedTime,advirtised, status
+                                    uploadedTime,advirtised, status , brandId ,
+                                    isVerified
                                 }
 
                                 fetch('http://localhost:5000/add-product',{
@@ -199,8 +195,8 @@ if(uploadSuccess){
                         <select required name='brand' className='form-control' id="">
                         <option value=''>Select one</option>
                             {
-                                allCategory?.map(brand => (
-                                    <option value={brand.name}>{brand.name}</option>
+                                allBrand?.map(brand => (
+                                    <option value={brand._id}>{brand.name}</option>
                                 ))
                             }
                         </select>

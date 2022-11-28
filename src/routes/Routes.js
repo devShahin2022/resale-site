@@ -5,6 +5,7 @@ import AllProductsPage from "../pages/AllProductsPage/AllProductsPage";
 import AllSeller from "../pages/AllSeller/AllSeller";
 import BlogPage from "../pages/BlogPage/BlogPage";
 import CategoryPage from "../pages/CategoryPage/CategoryPage";
+import CategoryProductPage from "../pages/CategoryProductPage/CategoryProductPage";
 import Dashboard from "../pages/DashboardPage/Dashboard";
 import HomePage from "../pages/HomePage/HomePage";
 import LoginInPage from "../pages/LoginInPage/LoginInPage";
@@ -56,6 +57,12 @@ export const router = createBrowserRouter([
         path : '/wishlist',
         element : <BuyerPrivateRoutes><WishList></WishList> </BuyerPrivateRoutes>
     },
+    {
+        path : '/brand/:id',
+        loader : ({params}) => fetch(`http://localhost:5000/getdata-by-brand?id=${params.id}`),
+        element : <BuyerPrivateRoutes><CategoryProductPage></CategoryProductPage></BuyerPrivateRoutes>
+    },
+    // other private route
     
     {
         path : '/dashboard',
