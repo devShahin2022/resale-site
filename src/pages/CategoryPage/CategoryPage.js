@@ -10,7 +10,6 @@ const CategoryPage = () => {
         fetch('http://localhost:5000/all-category')
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             setBrand(data);
             setLoading(false);
         })
@@ -45,7 +44,7 @@ const CategoryPage = () => {
                                     </div>
                                     <div className="card-body">
                                         <h5 className="card-title">{b.name}</h5>
-                                        <p class="card-text">
+                                        <p className="card-text">
                                         
                                        { 
                                         

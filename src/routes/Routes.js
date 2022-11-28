@@ -59,9 +59,14 @@ export const router = createBrowserRouter([
     },
     {
         path : '/brand/:id',
-        loader : ({params}) => fetch(`http://localhost:5000/getdata-by-brand?id=${params.id}`),
-        element : <BuyerPrivateRoutes><CategoryProductPage></CategoryProductPage></BuyerPrivateRoutes>
+        element : <BuyerPrivateRoutes><CategoryProductPage ></CategoryProductPage></BuyerPrivateRoutes>
     },
+
+    // {
+    //     path : '/brand/:id',
+    //     loader : ({params}) => fetch(`http://localhost:5000/getdata-by-brand?id=${params.id}`),
+    //     element : <BuyerPrivateRoutes><CategoryProductPage ></CategoryProductPage></BuyerPrivateRoutes>
+    // },
     // other private route
     
     {
