@@ -11,8 +11,6 @@ const Myprod = () => {
     // uploadedTime
     const navigate = useNavigate();
     const currentUserEmail = user.email;
-
-
     // toast
     const Toast = Swal.mixin({
         toast: true,
@@ -131,8 +129,8 @@ const Myprod = () => {
                 loading ? 
                 <>
                    <div style={{"height" : "100vh"}} className='w-100 d-flex justify-content-center align-items-center'> 
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                        <div className="spinner-border" role="status">
+                            <span className="visually-hidden">Loading...</span>
                         </div>
                    </div>
                 </>
@@ -252,22 +250,6 @@ const Myprod = () => {
                 }
             </tbody>
         </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         </>
                         :
                         <>

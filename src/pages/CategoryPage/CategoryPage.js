@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Footer from '../../components/Footer/Footer';
 import NavBar from '../../components/NavBar/NavBar';
 
 const CategoryPage = () => {
@@ -81,6 +82,7 @@ const CategoryPage = () => {
            } 
             </div>
         </div>
+        <Footer></Footer>
     </>
         
     );

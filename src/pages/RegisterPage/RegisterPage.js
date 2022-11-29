@@ -50,7 +50,7 @@ const RegisterPage = () => {
     // data save into db 
       const saveRegisDataDb = (user, role) => {
         const userData = {
-            name : user.name,
+            name : user.displayName,
             email : user.email,
             role : role,
             status : true,
@@ -66,7 +66,7 @@ const RegisterPage = () => {
             })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
             })
             .catch(error => {
                 console.log(error);
@@ -136,7 +136,6 @@ const RegisterPage = () => {
         const password = form.password.value;
         const accountType = form.accountType.value;
         const profileImage = form.file.files[0];
-        console.log(accountType);
         if(name ==='' || email === '' || password === '' || accountType === ''){
             Toast.fire({
                 icon: 'info',
@@ -238,7 +237,7 @@ if(uploadSuccess){
         <>
             <NavBar></NavBar>
             <div className='container-fluid'>
-                <form onSubmit={createAccount} className='m-auto bg-white p-3 py-5 rounded-4 my-5 shadow-5-strong' style={{"max-width":"380px"}}>
+                <form onSubmit={createAccount} className='m-auto bg-white p-3 py-5 rounded-4 my-5 shadow-5-strong' style={{"maxWidth":"380px"}}>
                 <div className='text-center mb-3'>
                 <p>Register with:</p>
 
@@ -270,7 +269,7 @@ if(uploadSuccess){
                 defaultChecked
                 />
 
-                <button type='submit' className='mb-4 btn btn-primary w-100' block>
+                <button type='submit' className='mb-4 btn btn-primary w-100'>
                 Register free
                 </button>
                 <div className='text-center'>

@@ -8,8 +8,6 @@ const CommonPrivateRoutes = ({children}) => {
     const {user, loading, logOut, userInfoFromDb} = useContext(AuthContextInfo);
     const navigate = useNavigate();
     
-
-    console.log('from private route', user, userInfoFromDb);
     const handleLogOut = () => {
         console.log('click logout btn');
         logOut()

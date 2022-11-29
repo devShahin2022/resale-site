@@ -14,8 +14,6 @@ import {
   } from 'mdb-react-ui-kit';
   const Swal = require('sweetalert2');
 
-
-
 const CategoryProductPage = () => {
 
     // loader data
@@ -98,8 +96,12 @@ const confirmBooking = () => {
         const buyerEmail =  userInfoFromDb.email;
         const prodId = productId;
         const bookedDate = Date.now();
+        // by default 
+        const paymentStatus = false;
+        const orderStatus = "pending";
+        const sellerEmail = data.userEmail;
         const  bookedInformation = {
-            buyerId, buyerEmail, prodId, bookedDate 
+            buyerId, buyerEmail, prodId, bookedDate ,paymentStatus, orderStatus,sellerEmail
         }
 
         // store data to database 
@@ -141,7 +143,7 @@ const confirmBooking = () => {
             <div className='container'>
                 <h1 className='text-center my-4 mb-5'>Product for <span className='text-primary'>{ brand[0]?.name }</span>  brand</h1>
 
-                <div className='container'>
+                <>
                     {
                         loading ? 
                         <>
@@ -154,104 +156,100 @@ const confirmBooking = () => {
                         <>
                         <div className='row'>
                         
-                        <div className='col-md-4'>
-                            {
-                                data?.map(d => 
-                                <>
-                                    <div key={d._id} className="card border border-1 pb-2 mb-5">
-                                        <img src={d.ImgUrl} className="card-img-top img-fluid w-100" alt=""/>
-                                        <div className="p-1 mt-2">
-                                            <h5 className="card-title">{brand[0]?.name + ' - '+  d.phoneModel}</h5>
-                                            
-                                            <div className='d-flex justify-content-between mt-2 flex-wrap'>
-                                                <p className=''>New price :<span className='fw-bold'>{d.brandNewPrice}</span>tk </p>
-                                                <p className=''>Resale price :<span className='fw-bold'>{d.resalePrice}</span>tk </p>
-                                            </div>
-                                            <div className='d-flex justify-content-between mt-2 flex-wrap'>
-                                            <p className='fs-6 '>
-                                                {
-                                                    d.isVerified ? 
-                                                    <>
-                                                        <small className='badge badge-success fs-6 pb-0'>Varified <span className='fw-bold'><i className="fas fa-check-double text-success"></i></span> </small>
-                                                    </>
-                                                    :
-                                                    <>
-                                                        <small className='badge badge-danger fs-6 pb-0'>Unknown <span className='fw-bold'><i className="fas fa-check-double text-muted"></i></span> </small>
-                                                    </>
-                                                }
-                                                {/* here will be show time  */}
-                                            </p>
-
-
-
-                                                <p className='badge badge-info py-2 px-3 fs-6'>
-                                                    <i className="far fa-clock"></i>
-                                                { 
-                                                    ((Date.now()  - d.uploadedTime) / 1000) < 15 && 
-                                                    <>
-                                                        <small>just now</small>
-                                                    </>
-                                                }
-                                                { 
-                                                    ((Date.now()  - d.uploadedTime) / 1000) < 60 && (parseInt(((Date.now()  - d.uploadedTime) / 1000)) > 14) &&
-                                                    <>
-                                                        <small>{ parseInt(((Date.now()  - d.uploadedTime) / 1000))}s ago</small>
-                                                    </>
-                                                }
-                                                { 
-                                                    (( Date.now()  - d.uploadedTime) / (1000*60)) < 60 && (parseInt((( Date.now()  - d.uploadedTime) / (1000*60))) > 0) &&
-                                                    <>
-                                                        <small>{ parseInt((( Date.now()  - d.uploadedTime) / (1000*60)))}m ago</small>
-                                                    </>
-                                                } 
-                                                { 
-                                                    (( Date.now()  - d.uploadedTime ) / (1000*60*60)) < 24 && (parseInt((( Date.now()  - d.uploadedTime ) / (1000*60*60))) > 0) &&
-                                                    <>
-                                                        <small>{ parseInt((( Date.now()  - d.uploadedTime ) / (1000*60*60)))}h ago</small>
-                                                    </>
-                                                }
-                                                { 
-                                                ( ((Date.now()  - d.uploadedTime) / (1000*60*60*24)) < 30) && (parseInt(((Date.now()  - d.uploadedTime) / (1000*60*60*24))) > 0 ) &&
-                                                    <>
-                                                        <small>{ parseInt(((Date.now()  - d.uploadedTime) / (1000*60*60*24)))}d ago</small>
-                                                    </>
-                                                }
-                                                { 
-                                                    (((Date.now()  - d.uploadedTime) / (1000*60*60*24*30)) < 12) && ( parseInt(((Date.now()  - d.uploadedTime) / (1000*60*60*30))) > 0) &&
-                                                    <>
-                                                        <small>{ parseInt(((Date.now()  - d.uploadedTime) / (1000*60*60*30)))}m ago</small>
-                                                    </>
-                                                }
-                                                { 
-                                                    ((Date.now()  - d.uploadedTime) / (1000*60*60*24*30*12)) && (parseInt(((Date.now()  - d.uploadedTime) / (1000*60*60*24*30*12))) > 0 ) &&
-                                                    <>
-                                                        <small>{ parseFloat(((Date.now()  - d.uploadedTime) / (1000*60*60*24*30*12))).toFixed(1)}y ago</small>
-                                                    </>
-                                                }
-                                            </p>
-
-
-
-
+                            <>
+                                {
+                                    data?.map(d => 
+                                    <div className='col-md-4'>
+                                        <div key={d._id} className="card border border-1 pb-2 mb-5">
+                                            <img src={d.ImgUrl} className="card-img-top img-fluid w-100" alt=""/>
+                                            <div className="p-1 mt-2">
+                                                <h5 className="card-title">{brand[0]?.name + ' - '+  d.phoneModel}</h5>
                                                 
-                                            </div>
-                                            <p className='mt-1 lead muted'>
-                                                <small>Phone : {d.number}</small>
-                                            </p>
-                                            <div className='d-flex justify-content-between mt-2 flex-wrap'>
-                                                <div className='d-flex'>
-                                                    <button className="btn btn-sm btn-secondary me-2"><i className="far fa-eye"></i></button>
-                                                    <button title='add to wishlist' className="btn btn-sm btn-secondary"><i className="far fa-heart"></i></button>
+                                                <div className='d-flex justify-content-between mt-2 flex-wrap'>
+                                                    <p className=''>New price :<span className='fw-bold'>{d.brandNewPrice}</span>tk </p>
+                                                    <p className=''>Resale price :<span className='fw-bold'>{d.resalePrice}</span>tk </p>
                                                 </div>
-                                                <button onClick={()=>handleBookedProduct(d)} className="btn btn-sm btn-primary">Book now</button>
+                                                <div className='d-flex justify-content-between mt-2 flex-wrap'>
+                                                <p className='fs-6 '>
+                                                    {
+                                                        d.isVerified ? 
+                                                        <>
+                                                            <small className='badge badge-success fs-6 pb-0'>Varified <span className='fw-bold'><i className="fas fa-check-double text-success"></i></span> </small>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <small className='badge badge-danger fs-6 pb-0'>Unknown <span className='fw-bold'><i className="fas fa-check-double text-muted"></i></span> </small>
+                                                        </>
+                                                    }
+                                                    {/* here will be show time  */}
+                                                </p>
+
+
+
+                                                    <p className='badge badge-info py-2 px-3 fs-6'>
+                                                        <i className="far fa-clock"></i>
+                                                    { 
+                                                        ((Date.now()  - d.uploadedTime) / 1000) < 15 && 
+                                                        <>
+                                                            <small>just now</small>
+                                                        </>
+                                                    }
+                                                    { 
+                                                        ((Date.now()  - d.uploadedTime) / 1000) < 60 && (parseInt(((Date.now()  - d.uploadedTime) / 1000)) > 14) &&
+                                                        <>
+                                                            <small>{ parseInt(((Date.now()  - d.uploadedTime) / 1000))}s ago</small>
+                                                        </>
+                                                    }
+                                                    { 
+                                                        (( Date.now()  - d.uploadedTime) / (1000*60)) < 60 && (parseInt((( Date.now()  - d.uploadedTime) / (1000*60))) > 0) &&
+                                                        <>
+                                                            <small>{ parseInt((( Date.now()  - d.uploadedTime) / (1000*60)))}m ago</small>
+                                                        </>
+                                                    } 
+                                                    { 
+                                                        (( Date.now()  - d.uploadedTime ) / (1000*60*60)) < 24 && (parseInt((( Date.now()  - d.uploadedTime ) / (1000*60*60))) > 0) &&
+                                                        <>
+                                                            <small>{ parseInt((( Date.now()  - d.uploadedTime ) / (1000*60*60)))}h ago</small>
+                                                        </>
+                                                    }
+                                                    { 
+                                                    ( ((Date.now()  - d.uploadedTime) / (1000*60*60*24)) < 30) && (parseInt(((Date.now()  - d.uploadedTime) / (1000*60*60*24))) > 0 ) &&
+                                                        <>
+                                                            <small>{ parseInt(((Date.now()  - d.uploadedTime) / (1000*60*60*24)))}d ago</small>
+                                                        </>
+                                                    }
+                                                    { 
+                                                        (((Date.now()  - d.uploadedTime) / (1000*60*60*24*30)) < 12) && ( parseInt(((Date.now()  - d.uploadedTime) / (1000*60*60*30))) > 0) &&
+                                                        <>
+                                                            <small>{ parseInt(((Date.now()  - d.uploadedTime) / (1000*60*60*30)))}m ago</small>
+                                                        </>
+                                                    }
+                                                    { 
+                                                        ((Date.now()  - d.uploadedTime) / (1000*60*60*24*30*12)) && (parseInt(((Date.now()  - d.uploadedTime) / (1000*60*60*24*30*12))) > 0 ) &&
+                                                        <>
+                                                            <small>{ parseFloat(((Date.now()  - d.uploadedTime) / (1000*60*60*24*30*12))).toFixed(1)}y ago</small>
+                                                        </>
+                                                    }
+                                                </p>  
+                                                </div>
+                                                <p className='mt-1 lead muted'>
+                                                    <small>Phone : {d.number}</small>
+                                                </p>
+                                                <div className='d-flex justify-content-between mt-2 flex-wrap'>
+                                                    <div className='d-flex'>
+                                                        <button className="btn btn-sm btn-secondary me-2"><i className="far fa-eye"></i></button>
+                                                        <button title='add to wishlist' className="btn btn-sm btn-secondary"><i className="far fa-heart"></i></button>
+                                                    </div>
+                                                    <button onClick={()=>handleBookedProduct(d)} className="btn btn-sm btn-primary">Book now</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </>
-                                )
-                            }
-                        </div>
-                    </div>
+                                    )
+                                }
+                            </>
+                        
+                         </div>
                         </>
                         :
                         <>
@@ -260,7 +258,7 @@ const confirmBooking = () => {
                     }
                         </>
                     }
-                </div>
+                </>
             </div>
 
             <Footer></Footer>

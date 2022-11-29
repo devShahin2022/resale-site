@@ -32,7 +32,7 @@ const LoginInPage = () => {
     // data save to database
     const saveRegisDataDb = (user, role) => {
       const userData = {
-          name : user.name,
+          name : user.displayname,
           email : user.email,
           role : role,
           status : true,
@@ -48,7 +48,7 @@ const LoginInPage = () => {
           })
           .then(res => res.json())
           .then(data => {
-              console.log(data);
+              // console.log(data);
           })
           .catch(error => {
               console.log(error);
@@ -151,7 +151,7 @@ const LoginInPage = () => {
         <NavBar></NavBar>
         {/* <button  onClick={handleGoogleLogin}>google</button> */}
         <div className='container-fluid'>
-            <form onSubmit={handleEmailLogin} className='m-auto bg-white p-3 py-5 rounded-4 my-5 shadow-5-strong' style={{"max-width":"360px"}}>
+            <form onSubmit={handleEmailLogin} className='m-auto bg-white p-3 py-5 rounded-4 my-5 shadow-5-strong' style={{"maxWidth":"360px"}}>
             <div className='text-center mb-3'>
               <p>Log in with:</p>
 
@@ -177,7 +177,7 @@ const LoginInPage = () => {
               </MDBCol>
             </MDBRow>
 
-            <button type='submit' className='btn btn-primary w-100 mb-4' block>
+            <button type='submit' className='btn btn-primary w-100 mb-4'>
               Log in
             </button>
 

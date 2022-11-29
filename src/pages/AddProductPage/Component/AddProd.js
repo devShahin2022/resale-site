@@ -45,7 +45,7 @@ const AddProd = () => {
                 setBrand(data);
             })
         }
-    }, [])
+    }, [role]);
 
     // this state for loading animation
     const [staticModal, setStaticModal] = useState(false);
@@ -61,7 +61,8 @@ const AddProd = () => {
         const formData = new FormData();
 
         const form = e.target;
-        const brandId = form.brand.value;
+        const brandIdAndTimeStr = form.brand.value;
+
         const phoneModel = form.model.value;
         const phoneCondition = form.condtion.value;
         const brandNewPrice = form.brandNewPrice.value;
@@ -72,7 +73,10 @@ const AddProd = () => {
         const desc = form.desc.value;
         const file = form.file.files[0];
 
+        const customCatIdByTime = parseInt(brandIdAndTimeStr.split(" ")[0]);
+        const brandId = brandIdAndTimeStr.split(" ")[1];
 
+            console.log(customCatIdByTime, brandId);
         //  get brand name
         
         
@@ -85,6 +89,7 @@ const AddProd = () => {
         const uploadedTime = Date.now(); // give miliseconds
         const status = 'available'; // available , sold, booked, disabled
         const isVerified = user.emailVerified;
+        // const customCatIdByTime = form.brand.value; // treate as a unique key
 
         if(userEmail && role === 'seller'){ //user role diye dite hobe
             if(
@@ -112,7 +117,7 @@ const AddProd = () => {
                                     brandNewPrice,resalePrice,phoneUsed,
                                     location,number,desc,ImgUrl,userEmail,
                                     uploadedTime,advirtised, status , brandId ,
-                                    isVerified
+                                    isVerified, customCatIdByTime
                                 }
 
                                 fetch('http://localhost:5000/add-product',{
@@ -196,7 +201,7 @@ if(uploadSuccess){
                         <option value=''>Select one</option>
                             {
                                 allBrand?.map(brand => (
-                                    <option value={brand._id}>{brand.name}</option>
+                                    <option value={brand.time+" "+brand._id}>{brand.name}</option>
                                 ))
                             }
                         </select>
@@ -257,7 +262,7 @@ if(uploadSuccess){
                     </div>
                 </div>
                 <div className="form-check mb-3">
-                    <input checked  required  className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                    <input defaultChecked  required  className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
                     <label className="form-check-label" htmlFor="flexCheckDefault">Admin have rights to delete your product</label>
                 </div>
                 <div className='d-flex justify-content-end'>
