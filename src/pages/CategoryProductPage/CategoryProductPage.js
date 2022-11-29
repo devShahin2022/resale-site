@@ -18,6 +18,8 @@ const CategoryProductPage = () => {
 
     // loader data
     const [scrollableModal, setScrollableModal] = useState(false);
+    const [scrollableModal1, setScrollableModal1] = useState(false);
+
     const [productName, setProductName] = useState();
     const [productPrice, setProductPrice] = useState();
     const [MeetingLocation,setMeetingLocation] = useState('');
@@ -27,6 +29,19 @@ const CategoryProductPage = () => {
     const [brand, setBrand] = useState([]);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [reRender, setRerender] = useState(4545);
+
+    // See details for modal
+    const [productModel, setProductModel] = useState();
+    const [modalProNewPrice, setModalProNewPrice] = useState();
+    const [modalProResalePrice, setModalProResalePrice] = useState();
+    const [modalProUsed, setModalProUsed] = useState();
+    const [modalProCond, setModalProCond] = useState();
+    const [modalProLocation, setModalProLocation] = useState();
+    const [modalProPhone, setModalProPhone] = useState();
+    const [modalProEmail, setModalProEmail] = useState();
+    const [modalProVeri, setModalProVeri] = useState();
+    const [imgLink, setImgLink] = useState();
 
 
     const {user,logOut, role, userInfoFromDb} = useContext(AuthContextInfo);
@@ -58,7 +73,7 @@ const CategoryProductPage = () => {
             }
         })
         setLoading(false);
-    },[catId, data]);
+    },[catId,reRender]);
 
     // toast
     const Toast = Swal.mixin({
@@ -127,6 +142,7 @@ const confirmBooking = () => {
                 .then(againCallData => {
                     // console.log( 'Data for again call ', againCallData);
                 })
+                setRerender(Date.now());
                 setScrollableModal(!scrollableModal);
             }
         })
@@ -206,6 +222,25 @@ const handleWishListProduct = (targetProd, i) => {
     }
 }
 
+
+// see details
+
+const seeDetails = (product) => {
+
+    setScrollableModal1(!scrollableModal1);
+
+    setImgLink(product.ImgUrl);
+    setProductModel(product.phoneModel);
+    setModalProNewPrice(product.brandNewPrice);
+    setModalProUsed(product.phoneUsed);
+    setModalProResalePrice(product.resalePrice);
+    setModalProCond(product.phoneCondition);
+    setModalProLocation(product.location);
+    setModalProPhone(product.number);
+    setModalProEmail(product.userEmail);
+    setModalProVeri(product.isVerified);
+    
+}  
 
 
     return (
@@ -313,7 +348,7 @@ const handleWishListProduct = (targetProd, i) => {
                                                 </div>
                                                 <div className='d-flex justify-content-between mt-2 flex-wrap'>
                                                     <div className='d-flex'>
-                                                        <button title='See details' className="btn btn-sm btn-secondary me-2"><i className="far fa-eye"></i></button>
+                                                        <button onClick={()=> seeDetails(d)} title='See details' className="btn btn-sm btn-secondary me-2"><i className="far fa-eye"></i></button>
                                                         <button onClick={()=>handleWishListProduct(d, i)} title='add to wishlist' className="btn btn-sm btn-secondary wishListAnimation">
                                                             <i className="far fa-heart"></i>
                                                         </button>
@@ -342,7 +377,7 @@ const handleWishListProduct = (targetProd, i) => {
             <Footer></Footer>
 
 
-{/* Modal */}
+{/* Modal for bookind */}
 
 {/* <button onClick={() => setScrollableModal(!scrollableModal)}>LAUNCH DEMO MODAL</button> */}
 
@@ -397,6 +432,69 @@ const handleWishListProduct = (targetProd, i) => {
     </MDBModalContent>
   </MDBModalDialog>
 </MDBModal>
+
+
+
+{/* Modal for see details */}
+
+<MDBModal show={scrollableModal1} setShow={setScrollableModal1} tabIndex='-1'>
+  <MDBModalDialog scrollable size='xl'>
+    <MDBModalContent>
+      <MDBModalHeader>
+        <MDBModalTitle>Product details</MDBModalTitle>
+        <button
+          className='btn-close'
+          color='none'
+          onClick={() => setScrollableModal1(!scrollableModal1)}
+        ></button>
+      </MDBModalHeader>
+      <MDBModalBody>
+      <div className='row pb-4'>
+            <div className="col-md-6">
+                <img src={imgLink} className='img-fluid w-100' alt="" />
+            </div>
+            <div className="col-md-6">
+                <p className="lead "><span className='fw-normal'>Brand Name : </span>  {brand[0]?.name} </p>
+                <p className="lead "><span className='fw-normal'>Model : </span> {productModel} </p>
+                <p className="lead "><span className='fw-normal'>Brand new price : </span>{modalProNewPrice} tk </p>
+                <p className="lead "><span className='fw-normal'>Resale price : </span>{modalProResalePrice} tk </p>
+                <p className="lead "><span className='fw-normal'>Phone condition : </span> {modalProCond}</p>
+                <p className="lead "><span className='fw-normal'>Used : </span>{modalProUsed} </p>
+                <p className="lead "><span className='fw-normal'>Location : </span> {modalProLocation}</p>
+                <p className="lead "><span className='fw-normal'>Phone number : </span> {modalProPhone}</p>
+                <p className="lead "><span className='fw-normal'>Email : </span> {modalProEmail}</p>
+                <p className="lead "><span className='fw-normal'>Seller verify status: </span>{
+
+
+                    modalProVeri ? 
+
+                        <>
+                            <small className='badge badge-success fs-6 pb-0'>Varified <span className='fw-bold'><i className="fas fa-check-double text-success"></i></span> </small>
+                        </>
+                        :
+                        <>
+                            <small className='badge badge-danger fs-6 pb-0'>Unknown <span className='fw-bold'><i className="fas fa-check-double text-muted"></i></span> </small>
+                        </>
+
+                } </p>
+              
+            </div>
+       </div>
+       <div className="row pb-5">
+        <h3 className='bg-secondary text-dark py-2 px-2'>Product description</h3>
+        <p className="lead">
+            Here is product description see
+        </p>
+       </div>
+       
+      </MDBModalBody>
+    </MDBModalContent>
+  </MDBModalDialog>
+</MDBModal>
+
+
+
+
 
         </>
     );

@@ -15,6 +15,9 @@ const CategoryPage = () => {
             setLoading(false);
         })
     }, []) ;
+
+
+    console.log('hello');
     return (
     
     <>
