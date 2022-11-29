@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContextInfo } from '../../authContext/AuthContext';
 import Footer from '../../components/Footer/Footer';
 import NavBar from '../../components/NavBar/NavBar';
+const Swal = require('sweetalert2');
 
 const MyOrders = () => {
 // state
 const [orderData, setOrderData] = useState([]);
 const [loading, setLoading] = useState(true);
+const [reRender, setRerender] = useState(454); //just for rerender
 
 // get context
 const {role, userInfoFromDb} = useContext(AuthContextInfo);
@@ -24,13 +26,57 @@ useEffect(() => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             setOrderData(data);
             setLoading(false);
         })
+        .catch(error => {
+            setLoading(false);
+        })
     }
-}, [role,userInfoFromDb]);
+}, [role,userInfoFromDb,reRender]);
 
+
+// cancel booked order
+const cancelBookedOrder = (id) => {
+    if(role === 'buyer') {
+        Swal.fire({
+          title: 'Are you sure to cacel?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, cancel it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+              fetch('http://localhost:5000/cancel-order',{
+              method : 'DELETE',
+              headers : {
+                  "content-type" : "application/json"
+              },
+              body : JSON.stringify({id})
+              })
+              .then(res => res.json())
+              .then(data => {
+                //   console.log(data);
+                if(data.acknowledged){
+
+                }
+              })
+
+            Swal.fire(
+              'Deleted!',
+              'Your order is canceled successfully',
+              'success'
+            )
+            setRerender(Date.now());
+          }
+         
+        })
+  }
+}
 
 
     return (
@@ -179,7 +225,7 @@ useEffect(() => {
                                 }
                                     </td>
                                     <td>
-                                        <button type="button " className="btn btn-sm btn-danger btn-rounded">
+                                        <button onClick={()=> cancelBookedOrder(eachOrder.prodId)} type="button " className="btn btn-sm btn-danger btn-rounded">
                                            Cancel
                                         </button>
                                         <button type="button" className="btn btn-sm btn-rounded btn-primary  mt-1">

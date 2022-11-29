@@ -28,6 +28,7 @@ const CategoryProductPage = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
+
     const {user,logOut, role, userInfoFromDb} = useContext(AuthContextInfo);
 
     // get params from url
@@ -71,8 +72,8 @@ const CategoryProductPage = () => {
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
       });
-    
 
+//   get targeted product info
 const handleBookedProduct = (targetProd) => {
     setScrollableModal(!scrollableModal);
     if(role === 'buyer'){
@@ -88,6 +89,7 @@ const handleBookedProduct = (targetProd) => {
     }
 }
 
+// confirm booking
 
 const confirmBooking = () => {
     if(MeetingLocation !=='' && PhoneNumber !== '' && productId !== ''){
@@ -137,6 +139,75 @@ const confirmBooking = () => {
 }
 
 
+
+// Wishlist functionality
+
+const handleWishListProduct = (targetProd, i) => {
+
+    const wishlistBtn = document.getElementsByClassName('wishListAnimation');
+
+    wishlistBtn[i].innerHTML = `<div class="spinner-grow" role="status">
+                                     <span class="visually-hidden">Loading...</span>
+                                 </div> ` ;
+    wishlistBtn[i].disabled = true;
+
+
+    if(role === 'buyer'){
+        // save fill to database
+        const buyerId =  userInfoFromDb._id;
+        const buyerEmail =  userInfoFromDb.email;
+        const prodId = targetProd._id;
+        const bookedDate = Date.now();
+
+        // by default 
+        const sellerEmail = data.userEmail;
+
+        const  wishListProductInfo = {
+            buyerId, buyerEmail, prodId, bookedDate ,sellerEmail
+        }
+
+        // place to database
+        fetch('http://localhost:5000/store-wishlist-data',{
+            method : "POST",
+            headers : {
+                'content-type' : 'application/json'
+            },
+            body : JSON.stringify({wishListProductInfo})
+        })
+        .then(res => res.json())
+        .then(result => {
+            if(result.status){
+                // for animation
+                console.log(i);
+                    wishlistBtn[i].innerHTML = `Added` ;
+                    wishlistBtn[i].disabled = false;
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Success! product added wishlist'
+                });
+            }else{
+                // console.log(wishlistBtn[i].innerHTML = '');
+                // for animation
+                wishlistBtn[i].innerHTML = 'Added' ;
+                console.log(wishlistBtn[i].innerText);
+                wishlistBtn[i].disabled = false;
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Product exist your wishlist'
+                });
+            }
+        });
+
+    }else{
+        logOut()
+        .then(res => {
+
+        })
+    }
+}
+
+
+
     return (
         <>
             <NavBar></NavBar>
@@ -158,7 +229,7 @@ const confirmBooking = () => {
                         
                             <>
                                 {
-                                    data?.map(d => 
+                                    data?.map((d, i) => 
                                     <div className='col-md-4'>
                                         <div key={d._id} className="card border border-1 pb-2 mb-5">
                                             <img src={d.ImgUrl} className="card-img-top img-fluid w-100" alt=""/>
@@ -232,13 +303,20 @@ const confirmBooking = () => {
                                                     }
                                                 </p>  
                                                 </div>
-                                                <p className='mt-1 lead muted'>
-                                                    <small>Phone : {d.number}</small>
-                                                </p>
+                                                <div className="d-flex justify-content-between flex-wrap">
+                                                    <p className='mt-1 lead muted'>
+                                                        <small>Phone : {d.number}</small>
+                                                    </p>
+                                                    <p className='mt-1 lead muted'>
+                                                        <small>used : {d.phoneUsed}</small>
+                                                    </p>
+                                                </div>
                                                 <div className='d-flex justify-content-between mt-2 flex-wrap'>
                                                     <div className='d-flex'>
-                                                        <button className="btn btn-sm btn-secondary me-2"><i className="far fa-eye"></i></button>
-                                                        <button title='add to wishlist' className="btn btn-sm btn-secondary"><i className="far fa-heart"></i></button>
+                                                        <button title='See details' className="btn btn-sm btn-secondary me-2"><i className="far fa-eye"></i></button>
+                                                        <button onClick={()=>handleWishListProduct(d, i)} title='add to wishlist' className="btn btn-sm btn-secondary wishListAnimation">
+                                                            <i className="far fa-heart"></i>
+                                                        </button>
                                                     </div>
                                                     <button onClick={()=>handleBookedProduct(d)} className="btn btn-sm btn-primary">Book now</button>
                                                 </div>
