@@ -83,7 +83,7 @@ const Dashboard = ({children}) => {
                                 <h1 className='display-3 text-center my-4 text-primary'>Welcome to your dashboard</h1>
                                 <div className='row d-flex justify-content-center'>
                                     <div className='rounded-5 col-md-3 d-flex justify-content-center bg-primary m-3 text-white align-items-center border-rounded py-5 px-2'>
-                                        <h3>Your current orders</h3>
+                                        <h3>Your paid products</h3>
                                     </div>
                                     <div className='rounded-5 col-md-3 d-flex justify-content-center bg-danger m-3 text-white align-items-center border-rounded py-5 px-2'>
                                         <h3>Your total products</h3>

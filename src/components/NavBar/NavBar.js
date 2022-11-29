@@ -146,7 +146,7 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
                                     <small className='me-1'>{user?.displayName}</small>
                                     <img
                                     width="30"
-                                    title={user?.displayName}
+                                    title={user?.email}
                                     src={user?.photoURL}
                                     className="rounded-circle border-2"
                                     height="30"
@@ -167,7 +167,7 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
                                 <small className='me-1'>{user?.displayName}</small>
                                     <img
                                     width="30"
-                                    title={user?.displayName}
+                                    title={user?.email}
                                     src={user?.photoURL}
                                     className="rounded-circle border-2 me-2"
                                     height="30"

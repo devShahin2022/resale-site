@@ -115,7 +115,8 @@ const confirmBooking = () => {
         const orderStatus = "pending";
         const sellerEmail = sellsManEmail;
         const  bookedInformation = {
-            buyerId, buyerEmail, prodId, bookedDate ,paymentStatus, orderStatus,sellerEmail
+            buyerId, buyerEmail, prodId, bookedDate ,paymentStatus, orderStatus,sellerEmail,
+            MeetingLocation
         }
 
         // store data to database 

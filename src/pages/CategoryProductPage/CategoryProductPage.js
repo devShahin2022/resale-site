@@ -19,6 +19,7 @@ const CategoryProductPage = () => {
     // loader data
     const [scrollableModal, setScrollableModal] = useState(false);
     const [scrollableModal1, setScrollableModal1] = useState(false);
+    const [scrollableModal2, setScrollableModal2] = useState(false);
 
     const [productName, setProductName] = useState();
     const [productPrice, setProductPrice] = useState();
@@ -30,6 +31,11 @@ const CategoryProductPage = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [reRender, setRerender] = useState(4545);
+    const [sellsManEmail, setSellerEmail] = useState();
+    const [reportMessage, setreportMessage] = useState('');
+    
+// state for report data
+    const [reportedProduct ,setReportedProduct] = useState();
 
     // See details for modal
     const [productModel, setProductModel] = useState();
@@ -96,6 +102,8 @@ const handleBookedProduct = (targetProd) => {
         setProductName(fullProductName);
         setProductPrice(targetProd.resalePrice);
         setProductId(targetProd._id);
+        // console.log(targetProd);
+        setSellerEmail(targetProd.userEmail);
     }else{
         logOut()
         .then(res => {
@@ -116,9 +124,10 @@ const confirmBooking = () => {
         // by default 
         const paymentStatus = false;
         const orderStatus = "pending";
-        const sellerEmail = data.userEmail;
+        const sellerEmail = sellsManEmail;
         const  bookedInformation = {
-            buyerId, buyerEmail, prodId, bookedDate ,paymentStatus, orderStatus,sellerEmail
+            buyerId, buyerEmail, prodId, bookedDate ,paymentStatus, orderStatus,sellerEmail,
+            MeetingLocation
         }
 
         // store data to database 
@@ -243,6 +252,66 @@ const seeDetails = (product) => {
 }  
 
 
+
+// make a product report
+const reportToAdmin = (info) => {
+    setScrollableModal2(!scrollableModal2);
+    // console.log(info);
+    setReportedProduct(info);
+}
+
+const confirmReport = () => {
+
+   const prod = reportedProduct ;
+   const reporter = userInfoFromDb;
+   const ProdId = prod._id;
+   const reporterEmail = reporter.email ;
+   const msg = reportMessage;
+
+   const reportItem = {
+    prod, reporter, msg, ProdId, reporterEmail
+   }
+   if(reportMessage.length < 1){
+    Toast.fire({
+        icon: 'error',
+        title: 'Please write your issues'
+    });
+   }else{
+        fetch('http://localhost:5000/keep-report-data',{
+            method : 'POST',
+            headers : {
+                'content-type' : 'application/json'
+            },
+            body : JSON.stringify({reportItem})
+        })
+        .then(res => res.json())
+        .then(resData => {
+            // console.log(resData);
+            if(resData.acknowledged){
+                Toast.fire({
+                    icon: 'success',
+                    title: 'successfully Sent your report'
+                });
+                setScrollableModal2(!scrollableModal2);
+                setRerender(Date.now());
+                setreportMessage('');
+            }else{
+                Toast.fire({
+                    icon: 'error',
+                    title: 'You alreadt report this product'
+                }); 
+                setScrollableModal2(!scrollableModal2);
+                setRerender(Date.now());
+                setreportMessage('');
+            }
+        })
+        .catch(error => {
+
+        });
+   }
+
+}
+
     return (
         <>
             <NavBar></NavBar>
@@ -269,7 +338,11 @@ const seeDetails = (product) => {
                                         <div key={d._id} className="card border border-1 pb-2 mb-5">
                                             <img src={d.ImgUrl} className="card-img-top img-fluid w-100" alt=""/>
                                             <div className="p-1 mt-2">
-                                                <h5 className="card-title">{brand[0]?.name + ' - '+  d.phoneModel}</h5>
+                                                <div className='d-flex flex-wrap me-1 justify-content-between'>
+                                                    <h5 className="card-title">{brand[0]?.name + ' - '+  d.phoneModel}</h5>
+                                                    <button onClick={()=> reportToAdmin(d)} className='btn btn-sm btn-secondary'> Report to admin </button>
+                                                </div>
+                                                
                                                 
                                                 <div className='d-flex justify-content-between mt-2 flex-wrap'>
                                                     <p className=''>New price :<span className='fw-bold'>{d.brandNewPrice}</span>tk </p>
@@ -492,6 +565,34 @@ const seeDetails = (product) => {
   </MDBModalDialog>
 </MDBModal>
 
+
+{/* Modal for Report Data */}
+
+<MDBModal show={scrollableModal2} setShow={setScrollableModal2} tabIndex='-1'>
+  <MDBModalDialog scrollable size='xl'>
+    <MDBModalContent>
+      <MDBModalHeader>
+        <MDBModalTitle>Product details</MDBModalTitle>
+        <button
+          className='btn-close'
+          color='none'
+          onClick={() => setScrollableModal2(!scrollableModal2)}
+        ></button>
+      </MDBModalHeader>
+      <MDBModalBody>
+
+        <textarea placeholder='Write your issues ' className='form-control' onChange={(e) => setreportMessage(e.target.value)} name="" id="" style={{"width" : "100%"}}  rows="5"></textarea>
+       
+      </MDBModalBody>
+      <MDBModalFooter>
+        <button className='btn btn-danger' color='secondary' onClick={() => { setScrollableModal2(!setScrollableModal2)}}>
+          Close
+        </button>
+        <button onClick={confirmReport} className='btn btn-primary'>Send report</button>
+      </MDBModalFooter>
+    </MDBModalContent>
+  </MDBModalDialog>
+</MDBModal>
 
 
 
