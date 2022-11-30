@@ -13,7 +13,7 @@ import MyBuyer from "../pages/MyBuyerPage/MyBuyer";
 import MyOrders from "../pages/MyOrders/MyOrders";
 import MyProductPage from "../pages/MyProductPage/MyProductPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
-import ReportedProducts from "../pages/ReportedProducts/ReportedProducts";
+import ReportedProduct from "../pages/ReportedProduct/ReportedProduct";
 import TotalUserPage from "../pages/TotalUserPage/TotalUserPage";
 import WishList from "../pages/WishList/WishList";
 import AdminPrivateRoute from "./AdminPrivateRoutes";
@@ -112,7 +112,7 @@ export const router = createBrowserRouter([
             },
             {
                 path : '/dashboard/reported-products',
-                element : <AdminPrivateRoute> <ReportedProducts></ReportedProducts> </AdminPrivateRoute>
+                element : <AdminPrivateRoute> <ReportedProduct></ReportedProduct> </AdminPrivateRoute>
             }
         ]  
     },

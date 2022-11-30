@@ -267,9 +267,10 @@ const confirmReport = () => {
    const ProdId = prod._id;
    const reporterEmail = reporter.email ;
    const msg = reportMessage;
+   const time = Date.now();
 
    const reportItem = {
-    prod, reporter, msg, ProdId, reporterEmail
+    prod, reporter, msg, ProdId, reporterEmail,time
    }
    if(reportMessage.length < 1){
     Toast.fire({
