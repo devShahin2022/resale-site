@@ -1,6 +1,6 @@
 ### Oldest phone resale project
 
-# Live link : 
+# Live link : https://assignment12-5c3d0.web.app/
 =============
 # Admin panel 
 ==============
