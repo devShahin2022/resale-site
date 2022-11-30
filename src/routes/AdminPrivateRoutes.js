@@ -9,23 +9,23 @@ const AdminPrivateRoute = ({children}) => {
     const {user, loading, logOut, userInfoFromDb} = useContext(AuthContextInfo);
     const navigate = useNavigate();
     
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      });
 
     // console.log('from private route', user, userInfoFromDb);
     const handleLogOut = () => {
         console.log('click logout btn');
         logOut()
         .then(res => {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              });
               Toast.fire({
                 icon: 'success',
                 title: 'Logout success'
@@ -43,8 +43,18 @@ const AdminPrivateRoute = ({children}) => {
                 </MDBSpinner>
             </div>
     }
-    else if(user && user.uid && (userInfoFromDb.role === 'admin') ){
+    else if(user && user.uid && (userInfoFromDb?.role === 'admin') ){
         return children;
+    }
+    else if(userInfoFromDb?.role === 'delete'){
+        logOut()
+        .then(res => {
+            Toast.fire({
+                icon: 'error',
+                title: 'Account deleted ! communicate admin for retrive'
+            });
+        })
+        return <Navigate to='/login'></Navigate>
     }
     else if(!user){
         return <Navigate to='/login'></Navigate>

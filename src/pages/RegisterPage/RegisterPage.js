@@ -51,6 +51,7 @@ const RegisterPage = () => {
       const saveRegisDataDb = (user, role) => {
         const userData = {
             name : user.displayName,
+            photo : user.photoURL,
             email : user.email,
             role : role,
             status : true,

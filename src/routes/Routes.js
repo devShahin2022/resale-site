@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import AddProductPage from "../pages/AddProductPage/AddProductPage";
+import AdminPage from "../pages/Admin/AdminPage";
 import AllBuyerPage from "../pages/AllBuyerPage/AllBuyerPage";
 import AllProductsPage from "../pages/AllProductsPage/AllProductsPage";
 import AllSeller from "../pages/AllSeller/AllSeller";
@@ -95,8 +96,8 @@ export const router = createBrowserRouter([
 
             // admin private routes
             {
-                path : '/dashboard/all-product',
-                element : <AdminPrivateRoute> <AllProductsPage></AllProductsPage></AdminPrivateRoute>
+                path : '/dashboard/all-admin',
+                element : <AdminPrivateRoute> <AdminPage></AdminPage> </AdminPrivateRoute>
             },
             {
                 path : '/dashboard/total-user',

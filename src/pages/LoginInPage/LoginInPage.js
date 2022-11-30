@@ -33,12 +33,13 @@ const LoginInPage = () => {
     const saveRegisDataDb = (user, role) => {
       const userData = {
           name : user.displayname,
+          photo : user.photoURL,
           email : user.email,
           role : role,
           status : true,
           isVerified : user.emailVerified
       }
-      
+
       fetch('http://localhost:5000/add-user',{
               method : 'POST',
               headers : {
