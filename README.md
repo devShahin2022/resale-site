@@ -4,9 +4,9 @@
 =============
 # Admin panel 
 ==============
-adminEmail: <admin@gmail.com>
+adminEmail: \<admin@gmail.com\>
 
-adminPassword: <123456>
+adminPassword: \<123456\>
 
 #server site technology
 ========================
