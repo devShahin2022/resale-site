@@ -240,7 +240,8 @@ if(uploadSuccess){
             <div className='container-fluid'>
                 <form onSubmit={createAccount} className='m-auto bg-white p-3 py-5 rounded-4 my-5 shadow-5-strong' style={{"maxWidth":"380px"}}>
                 <div className='text-center mb-3'>
-                <p>Register with:</p>
+                <small className="text-light p-2 bg-danger">Alert : After sign up you have to login again</small>
+                <p className='mt-3'>Register with:</p>
 
                 <button onClick={handleGoogleLoginR} style={{"width":"36px","height":"36px"}} className='p-0 mx-1 btn btn-primary rounded-circle '>
                 <MDBIcon fab icon='google' />
