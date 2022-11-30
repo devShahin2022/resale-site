@@ -1,9 +1,11 @@
 import React from 'react';
+import Dashboard from '../DashboardPage/Dashboard';
+import Allproducts from './componets/Allproducts';
 
 const AllProductsPage = () => {
     return (
         <div>
-            <h1>All products page</h1>
+            <Dashboard>  <Allproducts></Allproducts> </Dashboard>
         </div>
     );
 };

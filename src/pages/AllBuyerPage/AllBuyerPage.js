@@ -1,11 +1,12 @@
 import React from 'react';
+import Dashboard from '../DashboardPage/Dashboard';
+import AllBuyer from './componets/AllBuyer';
 
 const AllBuyerPage = () => {
     return (
-        <div>
-            <h1>All buyer page</h1>
-        </div>
+        <Dashboard> <AllBuyer></AllBuyer> </Dashboard>
     );
 };
+
 
 export default AllBuyerPage;

@@ -181,11 +181,11 @@ const cancelBookedOrder = (id) => {
                                     }
                                     </td>
                                     <td className='text-muted'>
-                                    { 
-                                    ((Date.now()  - eachOrder.bookedDate) / 1000) < 15 && 
-                                    <>
-                                        <small>just now</small>
-                                    </>
+                                { 
+                                ((Date.now()  - eachOrder.bookedDate) / 1000) < 15 && 
+                                <>
+                                    <small>just now</small>
+                                </>
                                 }
                                 { 
                                     ((Date.now()  - eachOrder.bookedDate) / 1000) < 60 && (parseInt(((Date.now()  - eachOrder.bookedDate) / 1000)) > 14) &&

@@ -1,9 +1,11 @@
 import React from 'react';
+import Dashboard from '../DashboardPage/Dashboard';
+import Sellers from './components/Sellers';
 
 const AllSeller = () => {
     return (
         <div>
-            <h1>All seller page</h1>
+            <Dashboard> <Sellers></Sellers> </Dashboard>
         </div>
     );
 };

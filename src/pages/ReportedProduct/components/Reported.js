@@ -107,7 +107,7 @@ const deleteReporte = (id) => {
 
     return (
         <div className='container-fluid'>
-            <h1 className='text-center my-4 mb-5'>This is report page ({data?.length})</h1>
+            <h1 className='text-center my-4 mb-5'>All reported product ({data?.length})</h1>
             {
                 data?.length > 0 ?
                 <>
