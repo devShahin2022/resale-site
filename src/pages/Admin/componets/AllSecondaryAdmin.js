@@ -27,7 +27,7 @@ const AllSecondaryAdmin = () => {
 
     useEffect(() => {
         if(userInfoFromDb?.role === 'admin'){
-            fetch('http://localhost:5000/get-all-secondary-admin')
+            fetch('https://ass-12-resale.vercel.app/get-all-secondary-admin')
             .then(res => res.json())
             .then(data => {
                 SetAllAdmin(data);
@@ -41,7 +41,7 @@ const AllSecondaryAdmin = () => {
 
    const makeUnverified = (id) => {
         if(userInfoFromDb?.role === 'admin'){
-            fetch('http://localhost:5000/make-unverified',{
+            fetch('https://ass-12-resale.vercel.app/make-unverified',{
                 method : "POST",
                 headers : {
                     'content-type' : 'application/json'
@@ -67,7 +67,7 @@ const AllSecondaryAdmin = () => {
 
    const makeVerified = (id) => {
     if(userInfoFromDb?.role === 'admin'){
-        fetch('http://localhost:5000/make-verified',{
+        fetch('https://ass-12-resale.vercel.app/make-verified',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -94,7 +94,7 @@ const AllSecondaryAdmin = () => {
 // make seller
 const makeSeller = (id) => {
     if(userInfoFromDb?.role === 'admin'){
-        fetch('http://localhost:5000/make-seller',{
+        fetch('https://ass-12-resale.vercel.app/make-seller',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -123,7 +123,7 @@ const makeSeller = (id) => {
 // make admin
 const makeBuyer = (id) => {
     if(userInfoFromDb?.role === 'admin'){
-        fetch('http://localhost:5000/make-buyer',{
+        fetch('https://ass-12-resale.vercel.app/make-buyer',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -234,7 +234,18 @@ const makeBuyer = (id) => {
                                         :
                                         <>
                                             <td>
-                                                <span className="badge badge-success rounded-pill d-inline my-1 mx-1">Secondary admin</span>
+                                                {
+                                                    d.email === 'shahinsss1949@gmail.com' ?
+                                                    <>
+                                                        <span className="badge badge-success rounded-pill d-inline my-1 mx-1">Primary admin</span> 
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <span className="badge badge-secondary rounded-pill d-inline my-1 mx-1">Secondary admin</span>
+                                                        <button onClick={()=> makeSeller(d._id)} className='btn btn-sm btn-secondary btn-rounded mx-1'>Make Seller</button>
+                                                        <button onClick={()=> makeBuyer(d._id)}  className='btn btn-sm btn-primary btn-rounded mx-1'>Make Buyer</button>
+                                                    </>
+                                                }
                                             </td>
                                         </>
                                     }

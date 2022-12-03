@@ -27,7 +27,7 @@ const Sellers = () => {
 
     useEffect(() => {
         if(userInfoFromDb?.role === 'admin'){
-            fetch('http://localhost:5000/get-all-seller')
+            fetch('https://ass-12-resale.vercel.app/get-all-seller')
             .then(res => res.json())
             .then(data => {
                 SetAllSeller(data);
@@ -40,7 +40,7 @@ const Sellers = () => {
 
     const makeUnverified = (id) => {
         if(userInfoFromDb?.role === 'admin'){
-            fetch('http://localhost:5000/make-unverified',{
+            fetch('https://ass-12-resale.vercel.app/make-unverified',{
                 method : "POST",
                 headers : {
                     'content-type' : 'application/json'
@@ -66,7 +66,7 @@ const Sellers = () => {
 
    const makeVerified = (id) => {
     if(userInfoFromDb?.role === 'admin'){
-        fetch('http://localhost:5000/make-verified',{
+        fetch('https://ass-12-resale.vercel.app/make-verified',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -94,7 +94,7 @@ const Sellers = () => {
 
 const makeAdmin = (id) => {
     if(userInfoFromDb?.role === 'admin'){
-        fetch('http://localhost:5000/make-admin',{
+        fetch('https://ass-12-resale.vercel.app/make-admin',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -134,7 +134,7 @@ const DeleteSellerOrBuyer = (id) => {
             confirmButtonText: 'Yes, delete it!'
           }).then((result) => {
             if (result.isConfirmed) {
-                fetch('http://localhost:5000/delete-seller-buyer',{
+                fetch('https://ass-12-resale.vercel.app/delete-seller-buyer',{
                     method : "DELETE",
                     headers : {
                         'content-type' : 'application/json'
@@ -181,7 +181,7 @@ const DeleteSellerOrBuyer = (id) => {
                             <table className="table align-middle mb-0 bg-white">
                                 <thead className="bg-light">
                                     <tr className='bg-primary text-light fw-bold'>
-                                        <th>Buyer</th>
+                                        <th>Seller</th>
                                         <th>Role</th>
                                         <th>verify</th>
                                         <th>Actions</th>

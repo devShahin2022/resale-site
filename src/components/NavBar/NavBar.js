@@ -10,7 +10,7 @@ const NavBar = ({showMeIcon, openSideBar, sidenav}) => {
     const {user, logOut, manageRole, role} = useContext(AuthContextInfo);
     if(user && user.email){
         const currentUserEmail = user.email;
-        fetch('http://localhost:5000/current-user-data',{
+        fetch('https://ass-12-resale.vercel.app/current-user-data',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'

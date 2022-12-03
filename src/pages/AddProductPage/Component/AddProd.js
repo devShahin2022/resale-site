@@ -39,7 +39,7 @@ const AddProd = () => {
 
     useEffect(() => {
         if(role === 'seller'){
-            fetch('http://localhost:5000/all-category')
+            fetch('https://ass-12-resale.vercel.app/all-category')
             .then(res => res.json())
             .then(data => {
                 setBrand(data);
@@ -98,7 +98,7 @@ const AddProd = () => {
                 location !== '' && number !== '' && desc !== '' && file !== ''
             ){
                 if(file){
-                    const url = `https://api.imgbb.com/1/upload?expiration=600&key=4a3bb29092c702c35c37b163232f9257`;
+                    const url = `https://api.imgbb.com/1/upload?key=4a3bb29092c702c35c37b163232f9257`;
                     formData.append('image', file);
                      fetch(url, {
                         method : 'POST',
@@ -120,7 +120,7 @@ const AddProd = () => {
                                     isVerified, customCatIdByTime
                                 }
 
-                                fetch('http://localhost:5000/add-product',{
+                                fetch('https://ass-12-resale.vercel.app/add-product',{
                                     method : 'POST',
                                     headers : {
                                         'content-type':'application/json'

@@ -11,14 +11,14 @@ const HomePage = () => {
     const [advirtisedProd, setAdvirtisedProd] = useState([]);
 
     useEffect(()=> {
-        fetch('http://localhost:5000/all-category')
+        fetch('https://ass-12-resale.vercel.app/all-category')
         .then(res => res.json())
         .then(data => {
             setBrand(data);
             setLoading(false);
         });
 
-        axios.get(`http://localhost:5000/advirtised-product`)
+        axios.get(`https://ass-12-resale.vercel.app/advirtised-product`)
         .then(res => {
           console.log(res.data);
           setAdvirtisedProd(res.data);
@@ -55,6 +55,14 @@ const HomePage = () => {
                                                 </p>
                                                 <p className='m-1'>
                                                 <span className="fw-bold">Resale : </span> {prod.resalePrice} tk
+                                                </p>
+                                            </div>
+                                            <div className='mt-2 d-flex flex-wrap justify-content-between'>
+                                                <p className='m-1'>
+                                                   <span className="fw-bold">Number : </span> {prod.number}
+                                                </p>
+                                                <p className='m-1'>
+                                                <span className="fw-bold">Phone : </span> {prod.location}
                                                 </p>
                                             </div>
                                         </div>

@@ -56,7 +56,7 @@ const logOut = () => {
                 if(currentUser && currentUser.uid){
                     const currentUserEmail = currentUser.email;
                     if(currentUserEmail){
-                            fetch('http://localhost:5000/current-user-data',{
+                            fetch('https://ass-12-resale.vercel.app/current-user-data',{
                             method : "POST",
                             headers : {
                                 'content-type' : 'application/json'

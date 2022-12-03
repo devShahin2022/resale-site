@@ -58,7 +58,7 @@ const CategoryProductPage = () => {
 
     // useeffect for fetchind data from db
     useEffect(()=>{
-        fetch(`http://localhost:5000/getdata-by-brand?id=${catId}`)
+        fetch(`https://ass-12-resale.vercel.app/getdata-by-brand?id=${catId}`)
         .then(res => res.json())
         .then(availableProduct => {
             if(availableProduct){
@@ -66,7 +66,7 @@ const CategoryProductPage = () => {
                 // fetch brand name
                 if(availableProduct[0]?.brandId){
                         setProductCat(data[0]?.brandId);
-                        fetch(`http://localhost:5000/single-cat-name?id=${availableProduct[0]?.brandId}`)
+                        fetch(`https://ass-12-resale.vercel.app/single-cat-name?id=${availableProduct[0]?.brandId}`)
                         .then(res => res.json())
                         .then(brandData => {
                             setBrand(brandData);
@@ -131,7 +131,7 @@ const confirmBooking = () => {
         }
 
         // store data to database 
-        fetch('http://localhost:5000/store-booked-data',{
+        fetch('https://ass-12-resale.vercel.app/store-booked-data',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -146,7 +146,7 @@ const confirmBooking = () => {
                     icon: 'success',
                     title: 'booked cofirm! please check my orders page'
                 });
-                fetch(`http://localhost:5000/getdata-by-brand?id=${productCat}`)
+                fetch(`https://ass-12-resale.vercel.app/getdata-by-brand?id=${productCat}`)
                 .then(againCall => againCall.json())
                 .then(againCallData => {
                     // console.log( 'Data for again call ', againCallData);
@@ -192,7 +192,7 @@ const handleWishListProduct = (targetProd, i) => {
         }
 
         // place to database
-        fetch('http://localhost:5000/store-wishlist-data',{
+        fetch('https://ass-12-resale.vercel.app/store-wishlist-data',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -278,7 +278,7 @@ const confirmReport = () => {
         title: 'Please write your issues'
     });
    }else{
-        fetch('http://localhost:5000/keep-report-data',{
+        fetch('https://ass-12-resale.vercel.app/keep-report-data',{
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'

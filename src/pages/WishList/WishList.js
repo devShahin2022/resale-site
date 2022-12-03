@@ -59,7 +59,7 @@ const Toast = Swal.mixin({
 useEffect(() => {
     if(userInfoFromDb?.role === 'buyer'){
         const email = userInfoFromDb.email ;
-        fetch('http://localhost:5000/wishlist-product',{
+        fetch('https://ass-12-resale.vercel.app/wishlist-product',{
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'
@@ -120,7 +120,7 @@ const confirmBooking = () => {
         }
 
         // store data to database 
-        fetch('http://localhost:5000/store-booked-data',{
+        fetch('https://ass-12-resale.vercel.app/store-booked-data',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -133,7 +133,7 @@ const confirmBooking = () => {
             if(result.acknowledged && result.modifiedCount > 0){
                 const id = wishListProductId;
                 console.log(wishListProductId);
-                fetch(`http://localhost:5000/cancel-wishlist-product`,{
+                fetch(`https://ass-12-resale.vercel.app/cancel-wishlist-product`,{
                     method : 'DELETE',
                     headers : {
                         'content-type' : 'application/json'
@@ -182,7 +182,7 @@ const cancelWishListProduct = (id) => {
         }).then((result) => {
           if (result.isConfirmed) {
 
-              fetch('http://localhost:5000/cancel-wishlist-product',{
+              fetch('https://ass-12-resale.vercel.app/cancel-wishlist-product',{
               method : 'DELETE',
               headers : {
                   "content-type" : "application/json"

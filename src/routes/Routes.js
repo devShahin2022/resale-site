@@ -65,7 +65,7 @@ export const router = createBrowserRouter([
 
     // {
     //     path : '/brand/:id',
-    //     loader : ({params}) => fetch(`http://localhost:5000/getdata-by-brand?id=${params.id}`),
+    //     loader : ({params}) => fetch(`https://ass-12-resale.vercel.app/getdata-by-brand?id=${params.id}`),
     //     element : <BuyerPrivateRoutes><CategoryProductPage ></CategoryProductPage></BuyerPrivateRoutes>
     // },
     // other private route
@@ -100,8 +100,8 @@ export const router = createBrowserRouter([
                 element : <AdminPrivateRoute> <AdminPage></AdminPage> </AdminPrivateRoute>
             },
             {
-                path : '/dashboard/total-user',
-                element : <AdminPrivateRoute> <TotalUserPage></TotalUserPage> </AdminPrivateRoute>
+                path : '/dashboard/all-products',
+                element : <AdminPrivateRoute> <AllProductsPage></AllProductsPage> </AdminPrivateRoute>
             },
             {
                 path : '/dashboard/all-seller',

@@ -15,7 +15,7 @@ const {role, userInfoFromDb} = useContext(AuthContextInfo);
 useEffect(() => {
     if(userInfoFromDb?.role === 'seller'){
         const email = userInfoFromDb.email ;
-        fetch('http://localhost:5000/seller/booked-products-data',{
+        fetch('https://ass-12-resale.vercel.app/seller/booked-products-data',{
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'
@@ -48,7 +48,7 @@ const cancelBookedOrder = (id) => {
         }).then((result) => {
           if (result.isConfirmed) {
 
-              fetch('http://localhost:5000/cancel-order',{
+              fetch('https://ass-12-resale.vercel.app/cancel-order',{
               method : 'DELETE',
               headers : {
                   "content-type" : "application/json"
@@ -91,7 +91,7 @@ const cancelBookedOrder = (id) => {
 // accepted order
 const acceptedOrder = (id) => {
         if(role === 'seller'){
-            fetch('http://localhost:5000/accepted-order',{
+            fetch('https://ass-12-resale.vercel.app/accepted-order',{
             method : 'POST',
             headers : {
                 "content-type" : "application/json"
@@ -114,7 +114,7 @@ const acceptedOrder = (id) => {
 // keep pending order data 
 const keepPending = (id) => {
     if(role === 'seller'){
-        fetch('http://localhost:5000/keep-pending-order',{
+        fetch('https://ass-12-resale.vercel.app/keep-pending-order',{
         method : 'POST',
         headers : {
             "content-type" : "application/json"

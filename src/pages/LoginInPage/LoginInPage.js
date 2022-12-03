@@ -40,7 +40,7 @@ const LoginInPage = () => {
           isVerified : user.emailVerified
       }
 
-      fetch('http://localhost:5000/add-user',{
+      fetch('https://ass-12-resale.vercel.app/add-user',{
               method : 'POST',
               headers : {
                   'content-type' : 'application/json'

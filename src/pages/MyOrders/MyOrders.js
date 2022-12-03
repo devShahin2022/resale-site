@@ -17,7 +17,7 @@ const {role, userInfoFromDb} = useContext(AuthContextInfo);
 useEffect(() => {
     if(userInfoFromDb?.role === 'buyer'){
         const email = userInfoFromDb.email ;
-        fetch('http://localhost:5000/booked-products-data',{
+        fetch('https://ass-12-resale.vercel.app/booked-products-data',{
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'
@@ -51,7 +51,7 @@ const cancelBookedOrder = (id) => {
         }).then((result) => {
           if (result.isConfirmed) {
 
-              fetch('http://localhost:5000/cancel-order',{
+              fetch('https://ass-12-resale.vercel.app/cancel-order',{
               method : 'DELETE',
               headers : {
                   "content-type" : "application/json"

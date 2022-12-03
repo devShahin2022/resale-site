@@ -10,7 +10,7 @@ const Reported = () => {
     const {role} = useContext(AuthContextInfo);
 
     useEffect(() => {
-        fetch('http://localhost:5000/reported-product')
+        fetch('https://ass-12-resale.vercel.app/reported-product')
         .then(res => res.json())
         .then(result => {
             console.log(result);
@@ -37,7 +37,7 @@ const deleteReportedProduct = (info) => {
           }).then((result) => {
             if (result.isConfirmed) {
     
-                fetch('http://localhost:5000/delete-reported-product',{
+                fetch('https://ass-12-resale.vercel.app/delete-reported-product',{
                 method : 'DELETE',
                 headers : {
                     "content-type" : "application/json"
@@ -48,7 +48,7 @@ const deleteReportedProduct = (info) => {
                 .then(data => {
                     console.log(data);
                   if(data.acknowledged){
-                    fetch('http://localhost:5000/delete-report',{
+                    fetch('https://ass-12-resale.vercel.app/delete-report',{
                         method : 'DELETE',
                         headers : {
                             "content-type" : "application/json"
@@ -85,7 +85,7 @@ const deleteReporte = (id) => {
             confirmButtonText: 'Yes, delete it!'
           }).then((result) => {
             if (result.isConfirmed) {
-                fetch('http://localhost:5000/delete-report',{
+                fetch('https://ass-12-resale.vercel.app/delete-report',{
                     method : 'DELETE',
                     headers : {
                         "content-type" : "application/json"

@@ -13,7 +13,7 @@ const Allproducts = () => {
 
     useEffect(() => {
         if(userInfoFromDb?.role === 'admin'){
-            fetch('http://localhost:5000/all-products-admin')
+            fetch('https://ass-12-resale.vercel.app/all-products-admin')
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -39,7 +39,7 @@ const deleteProduct = (ProductId) => {
             confirmButtonText: 'Yes, delete it!'
           }).then((result) => {
             if (result.isConfirmed) {
-                fetch('http://localhost:5000/delete-reported-product',{
+                fetch('https://ass-12-resale.vercel.app/delete-reported-product',{
                     method : 'DELETE',
                     headers : {
                         "content-type" : "application/json"

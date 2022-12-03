@@ -8,7 +8,7 @@ const CategoryPage = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(()=> {
-        fetch('http://localhost:5000/all-category')
+        fetch('https://ass-12-resale.vercel.app/all-category')
         .then(res => res.json())
         .then(data => {
             setBrand(data);

@@ -14,7 +14,7 @@ const Dashboard = ({children}) => {
     const {user} = useContext(AuthContextInfo);
     if(user && user.email){
         const currentUserEmail = user.email;
-        fetch('http://localhost:5000/current-user-data',{
+        fetch('https://ass-12-resale.vercel.app/current-user-data',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -41,6 +41,7 @@ const Dashboard = ({children}) => {
                     {
                         userRole === 'admin' ? 
                         <>
+                            <Link title='All Admins' className='sideNav-item-hover nav-link text-dark bg-light' to='/dashboard/all-products'><p className='d-flex justify-content-between align-items-center w-100 text-start mt-2'><span>All Products</span>  {sidenav? <MDBIcon fas icon="long-arrow-alt-right" /> : <MDBIcon   className='ms-2' fas icon="user-tie" />}</p></Link>
                             <Link title='All Admins' className='sideNav-item-hover nav-link text-dark bg-light' to='/dashboard/all-admin'><p className='d-flex justify-content-between align-items-center w-100 text-start mt-2'><span>All admins</span>  {sidenav? <MDBIcon fas icon="long-arrow-alt-right" /> : <MDBIcon   className='ms-2' fas icon="user-tie" />}</p></Link>
                             <Link title='All seller' className='sideNav-item-hover nav-link text-dark bg-light' to='/dashboard/all-seller'><p className='d-flex justify-content-between align-items-center text-start mt-2'><span>All seller</span>  {sidenav? <MDBIcon fas icon="long-arrow-alt-right" /> : <MDBIcon className='ms-2' fas icon="bug" />}</p></Link>
                             <Link title='All Buyer' className='sideNav-item-hover nav-link text-dark bg-light' to='/dashboard/all-buyer'><p className='d-flex justify-content-between align-items-center w-100 text-start mt-2'><span>All buyers</span>  {sidenav? <MDBIcon fas icon="long-arrow-alt-right" /> : <MDBIcon  className='ms-2'  fas icon="user-cog" />}</p></Link>

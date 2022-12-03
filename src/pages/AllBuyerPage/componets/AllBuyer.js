@@ -27,7 +27,7 @@ const AllBuyer = () => {
 
     useEffect(() => {
         if(userInfoFromDb?.role === 'admin'){
-            fetch('http://localhost:5000/get-all-buyer')
+            fetch('https://ass-12-resale.vercel.app/get-all-buyer')
             .then(res => res.json())
             .then(data => {
                 SetAllBuyer(data);
@@ -41,7 +41,7 @@ const AllBuyer = () => {
 
    const makeUnverified = (id) => {
         if(userInfoFromDb?.role === 'admin'){
-            fetch('http://localhost:5000/make-unverified',{
+            fetch('https://ass-12-resale.vercel.app/make-unverified',{
                 method : "POST",
                 headers : {
                     'content-type' : 'application/json'
@@ -67,7 +67,7 @@ const AllBuyer = () => {
 
    const makeVerified = (id) => {
     if(userInfoFromDb?.role === 'admin'){
-        fetch('http://localhost:5000/make-verified',{
+        fetch('https://ass-12-resale.vercel.app/make-verified',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -94,7 +94,7 @@ const AllBuyer = () => {
 
 const makeAdmin = (id) => {
     if(userInfoFromDb?.role === 'admin'){
-        fetch('http://localhost:5000/make-admin',{
+        fetch('https://ass-12-resale.vercel.app/make-admin',{
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
@@ -134,7 +134,7 @@ const DeleteSellerOrBuyer = (id) => {
             confirmButtonText: 'Yes, delete it!'
           }).then((result) => {
             if (result.isConfirmed) {
-                fetch('http://localhost:5000/delete-seller-buyer',{
+                fetch('https://ass-12-resale.vercel.app/delete-seller-buyer',{
                     method : "DELETE",
                     headers : {
                         'content-type' : 'application/json'

@@ -58,7 +58,7 @@ const RegisterPage = () => {
             isVerified : user.emailVerified
         }
         
-        fetch('http://localhost:5000/add-user',{
+        fetch('https://ass-12-resale.vercel.app/add-user',{
                 method : 'POST',
                 headers : {
                     'content-type' : 'application/json'
@@ -149,7 +149,7 @@ const RegisterPage = () => {
             });
         }else{
             if(profileImage){
-                const url = `https://api.imgbb.com/1/upload?expiration=600&key=4a3bb29092c702c35c37b163232f9257`;
+                const url = `https://api.imgbb.com/1/upload?key=4a3bb29092c702c35c37b163232f9257`;
                 formData.append('image', profileImage);
                 await fetch(url, {
                     method : 'POST',

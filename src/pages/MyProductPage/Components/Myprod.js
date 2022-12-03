@@ -28,7 +28,7 @@ const Myprod = () => {
 
     useEffect(()=>{
         if(role === 'seller'){
-            fetch('http://localhost:5000/fetch-my-products',{
+            fetch('https://ass-12-resale.vercel.app/fetch-my-products',{
                 method : 'POST',
                 headers : {
                     'content-type' : 'application/json'
@@ -51,7 +51,7 @@ const Myprod = () => {
 
     const makeAdvirtised = (id) => {
         if(role === 'seller'){
-            fetch('http://localhost:5000/make-advirtised', {
+            fetch('https://ass-12-resale.vercel.app/make-advirtised', {
                 method : "PUT",
                 headers : {
                     "content-type" : "application/json"
@@ -98,7 +98,7 @@ const Myprod = () => {
               }).then((result) => {
                 if (result.isConfirmed) {
 
-                    fetch('http://localhost:5000/delete-product',{
+                    fetch('https://ass-12-resale.vercel.app/delete-product',{
                     method : 'DELETE',
                     headers : {
                         "content-type" : "application/json"
